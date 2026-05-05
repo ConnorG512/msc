@@ -56,14 +56,14 @@ consteval std::array<char, 16> Music::generate_title(const Music::Key<chromatic_
   output.append(key.scale_name);
   output += ':';
   output += ' ';
+  output += '\0';
 
   std::array<char, 16> final_buffer{};
   if(output.size() >= final_buffer.size())
      throw "Output is too big for the final buffer, increase buffer size!";
   else 
   {
-   const auto copy_tail = std::ranges::copy(output, std::ranges::begin(final_buffer)).out;
-   *copy_tail = '\0';
+   std::ranges::copy(output, std::ranges::begin(final_buffer));
    return final_buffer;
   }
 }
