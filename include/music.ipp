@@ -67,3 +67,27 @@ consteval std::array<char, 16> Music::generate_title(const Music::Key<chromatic_
    return final_buffer;
   }
 }
+
+template <std::size_t chromatic_scale_size, std::size_t interval_size>
+consteval std::array<char, 64> Music::generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key)
+{
+  std::string output{};
+  output.append(key.get_tonic_note());
+  output += ' ';
+  output.append(key.scale_name);
+  output += ':';
+  output += ' ';
+  output.append(key.generate_key());
+  output += ' ';
+  output += '\0';
+  
+
+  std::array<char, 64> final_buffer{};
+  if(output.size() > final_buffer.size())
+    throw "Output is too big for the final buffer, increase buffer size!";
+  else 
+  {
+    std::ranges::copy(output, std::ranges::begin(final_buffer));  
+    return final_buffer;
+  }
+}
