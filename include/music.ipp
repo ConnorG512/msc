@@ -23,8 +23,8 @@ consteval std::array<char, 32> Music::Key<chromatic_scale_size, interval_size>::
 {
   std::string output{};
 
-  auto current_interval {starting_interval};
-  for(const auto& interval : intervals)
+  auto current_interval{starting_interval};
+  for (const auto &interval : intervals)
   {
     output.append(chromatic_scale.at(current_interval % chromatic_scale.size()).data());
     output += ' ';
@@ -32,13 +32,13 @@ consteval std::array<char, 32> Music::Key<chromatic_scale_size, interval_size>::
   }
   output += chromatic_scale.at(starting_interval).data();
 
-   std::array<char, 32> final_buffer{};
-   if (output.size() >= final_buffer.size())
-     throw "Output is too big for the final buffer, increase buffer size!";
+  std::array<char, 32> final_buffer{};
+  if (output.size() >= final_buffer.size())
+    throw "Output is too big for the final buffer, increase buffer size!";
 
-   const auto copy_tail = std::ranges::copy(output, std::ranges::begin(final_buffer)).out;
-   *copy_tail = '\0';
-   return final_buffer;
+  const auto copy_tail = std::ranges::copy(output, std::ranges::begin(final_buffer)).out;
+  *copy_tail = '\0';
+  return final_buffer;
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
@@ -59,12 +59,12 @@ consteval std::array<char, 16> Music::generate_title(const Music::Key<chromatic_
   output += '\0';
 
   std::array<char, 16> final_buffer{};
-  if(output.size() >= final_buffer.size())
-     throw "Output is too big for the final buffer, increase buffer size!";
-  else 
+  if (output.size() >= final_buffer.size())
+    throw "Output is too big for the final buffer, increase buffer size!";
+  else
   {
-   std::ranges::copy(output, std::ranges::begin(final_buffer));
-   return final_buffer;
+    std::ranges::copy(output, std::ranges::begin(final_buffer));
+    return final_buffer;
   }
 }
 
@@ -80,14 +80,13 @@ consteval std::array<char, 64> Music::generate_title_and_notes(const Key<chromat
   output.append(key.generate_key().data());
   output += ' ';
   output += '\0';
-  
 
   std::array<char, 64> final_buffer{};
-  if(output.size() > final_buffer.size())
+  if (output.size() > final_buffer.size())
     throw "Output is too big for the final buffer, increase buffer size!";
-  else 
+  else
   {
-    std::ranges::copy(output, std::ranges::begin(final_buffer));  
+    std::ranges::copy(output, std::ranges::begin(final_buffer));
     return final_buffer;
   }
 }
