@@ -28,6 +28,9 @@ public:
   std::int8_t starting_interval{0};
 };
 
+template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7>
+consteval std::array<char, 16> generate_title(const Key<chromatic_scale_size, interval_size> &key);
+
 } // namespace Music
 
 #include "music.ipp"
