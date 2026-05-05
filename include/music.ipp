@@ -7,21 +7,30 @@
 #include <ranges>
 #include <string>
 #include <string_view>
-#include <utility>
 
-consteval auto Music::calculate_key(const Music::Tonic starting_interval, const std::array<std::uint8_t, 7> intervals,
-                                    const std::array<std::array<char, 4>, 12> chromatic_scale)
+template <std::size_t chromatic_scale_size, std::size_t interval_size>
+consteval Music::Key<chromatic_scale_size, interval_size>::Key(
+    const std::int8_t starting_interval, const std::string_view scale_name,
+    std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale,
+    std::array<std::int8_t, interval_size> intervals)
+    : chromatic_scale{chromatic_scale}, intervals{intervals}, scale_name{scale_name},
+      starting_interval{starting_interval}
+{
+}
+
+template <std::size_t chromatic_scale_size, std::size_t interval_size>
+consteval std::array<char, 32> Music::Key<chromatic_scale_size, interval_size>::generate_key() const
 {
   std::string output{};
 
-  auto current_interval{std::to_underlying(starting_interval)};
-  for (auto interval : intervals)
+  auto current_interval{starting_interval};
+  for (const auto &interval : intervals)
   {
     output.append(chromatic_scale.at(current_interval % chromatic_scale.size()).data());
-    output.push_back(' ');
+    output += ' ';
     current_interval += interval;
   }
-  output.append(chromatic_scale.at(std::to_underlying(starting_interval)).data());
+  output += chromatic_scale.at(starting_interval).data();
 
   std::array<char, 32> final_buffer{};
   if (output.size() >= final_buffer.size())
@@ -32,117 +41,49 @@ consteval auto Music::calculate_key(const Music::Tonic starting_interval, const 
   return final_buffer;
 }
 
-consteval std::array<std::array<char, 64>, 12> Music::create_circle_of_fiths()
+template <std::size_t chromatic_scale_size, std::size_t interval_size>
+consteval std::string_view Music::Key<chromatic_scale_size, interval_size>::get_tonic_note() const
 {
-  constexpr auto intervals = std::to_array<std::uint8_t>({2, 2, 1, 2, 2, 2, 1});
-
-  return std::to_array({
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::C), Music::Tonic::C, Music::Scale::MAJOR),
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::G), Music::Tonic::G, Music::Scale::MAJOR),
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::D), Music::Tonic::D, Music::Scale::MAJOR),
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::A), Music::Tonic::A, Music::Scale::MAJOR),
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::E), Music::Tonic::E, Music::Scale::MAJOR),
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::B), Music::Tonic::B, Music::Scale::MAJOR),
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::F_SHARP, intervals,
-                                                {"C", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}),
-                                  Music::Tonic::F_SHARP, Music::Scale::MAJOR),
-
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::C_SHARP, intervals,
-                                                {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}),
-                                  Music::Tonic::C_SHARP, Music::Scale::MAJOR),
-
-      Music::prepend_title_to_key(
-          calculate_key(Music::Tonic::F, intervals, {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
-          Music::Tonic::F, Music::Scale::MAJOR),
-
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::B_FLAT, intervals,
-                                                {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
-                                  Music::Tonic::B_FLAT, Music::Scale::MAJOR),
-
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::E_FLAT, intervals,
-                                                {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
-                                  Music::Tonic::E_FLAT, Music::Scale::MAJOR),
-
-      Music::prepend_title_to_key(calculate_key(Music::Tonic::A_FLAT, intervals,
-                                                {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
-                                  Music::Tonic::A_FLAT, Music::Scale::MAJOR),
-  });
+  return chromatic_scale.at(starting_interval).data();
 }
 
-consteval std::array<char, 64> Music::prepend_title_to_key(const std::array<char, 32> calculated_key, const Tonic tonic,
-                                                           const Scale scale)
+template <std::size_t chromatic_scale_size, std::size_t interval_size>
+consteval std::array<char, 16> Music::generate_title(const Music::Key<chromatic_scale_size, interval_size> &key)
 {
-  const std::string selected_tonic = [](const Tonic tonic)
-  {
-    if (tonic == Tonic::C)
-      return "C";
-    else if (tonic == Tonic::D)
-      return "D";
-    else if (tonic == Tonic::E)
-      return "E";
-    else if (tonic == Tonic::F)
-      return "F";
-    else if (tonic == Tonic::G)
-      return "G";
-    else if (tonic == Tonic::A)
-      return "A";
-    else if (tonic == Tonic::B)
-      return "B";
-
-    else if (tonic == Tonic::C_SHARP)
-      return "C#";
-    else if (tonic == Tonic::D_SHARP)
-      return "D#";
-    else if (tonic == Tonic::E_SHARP)
-      return "E#";
-    else if (tonic == Tonic::F_SHARP)
-      return "F#";
-    else if (tonic == Tonic::G_SHARP)
-      return "G#";
-    else if (tonic == Tonic::A_SHARP)
-      return "G#";
-    else if (tonic == Tonic::B_SHARP)
-      return "G#";
-
-    else if (tonic == Tonic::C_FLAT)
-      return "Cb";
-    else if (tonic == Tonic::D_FLAT)
-      return "Db";
-    else if (tonic == Tonic::E_FLAT)
-      return "Eb";
-    else if (tonic == Tonic::F_FLAT)
-      return "Fb";
-    else if (tonic == Tonic::G_FLAT)
-      return "Gb";
-    else if (tonic == Tonic::A_FLAT)
-      return "Ab";
-    else if (tonic == Tonic::B_FLAT)
-      return "Bb";
-
-    else
-      return "FIX";
-  }(tonic);
-
-  const std::string_view selected_scale = [](const Scale scale)
-  {
-    if (scale == Scale::MAJOR)
-      return "Major";
-    else if (scale == Scale::MINOR)
-      return "Minor";
-    else
-      return "FIX";
-  }(scale);
-
-  std::string output{selected_tonic};
+  std::string output{};
+  output.append(key.get_tonic_note());
   output += ' ';
-  output += selected_scale;
+  output.append(key.scale_name);
   output += ':';
   output += ' ';
-  output += calculated_key.data();
+  output += '\0';
+
+  std::array<char, 16> final_buffer{};
+  if (output.size() >= final_buffer.size())
+    throw "Output is too big for the final buffer, increase buffer size!";
+  else
+  {
+    std::ranges::copy(output, std::ranges::begin(final_buffer));
+    return final_buffer;
+  }
+}
+
+template <std::size_t chromatic_scale_size, std::size_t interval_size>
+consteval std::array<char, 64> Music::generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key)
+{
+  std::string output{};
+  output.append(key.get_tonic_note().data());
+  output += ' ';
+  output.append(key.scale_name.data());
+  output += ':';
+  output += ' ';
+  output.append(key.generate_key().data());
+  output += ' ';
+  output += '\0';
 
   std::array<char, 64> final_buffer{};
-  if (output.size() >= final_buffer.size())
-    throw "String too big for buffer!";
+  if (output.size() > final_buffer.size())
+    throw "Output is too big for the final buffer, increase buffer size!";
   else
   {
     std::ranges::copy(output, std::ranges::begin(final_buffer));

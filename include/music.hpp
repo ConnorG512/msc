@@ -2,51 +2,38 @@
 
 #include <array>
 #include <cstdint>
+#include <string_view>
 
 namespace Music
 {
-enum class Tonic
+
+template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7> class Key
 {
-  C = 0,
-  D = 2,
-  E = 4,
-  F = 5,
-  G = 7,
-  A = 9,
-  B = 11,
+public:
+  // Functions:
+  consteval Key(const std::int8_t starting_interval, const std::string_view scale_name,
+                std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale = {"C", "C#", "D", "D#", "E", "F",
+                                                                                         "F#", "G", "G#", "A", "A#",
+                                                                                         "B"},
+                std::array<std::int8_t, interval_size> intervals = {2, 2, 1, 2, 2, 2, 1});
+  consteval Key() = default;
+  consteval std::array<char, 32> generate_key() const;
+  consteval std::string_view get_tonic_note() const;
 
-  C_SHARP = 1,
-  D_SHARP = 3,
-  E_SHARP = 5,
-  F_SHARP = 6,
-  G_SHARP = 8,
-  A_SHARP = 10,
-  B_SHARP = 0,
-
-  C_FLAT = 11,
-  D_FLAT = 1,
-  E_FLAT = 3,
-  F_FLAT = 4,
-  G_FLAT = 6,
-  A_FLAT = 8,
-  B_FLAT = 10,
+  // Data:
+  std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale{"C",  "C#", "D",  "D#", "E",  "F",
+                                                                        "F#", "G",  "G#", "A",  "A#", "B"};
+  std::array<std::int8_t, interval_size> intervals{2, 2, 1, 2, 2, 2, 1};
+  std::string_view scale_name{"Major"};
+  std::int8_t starting_interval{0};
 };
 
-enum class Scale
-{
-  MAJOR,
-  MINOR,
-};
+template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7>
+consteval std::array<char, 16> generate_title(const Key<chromatic_scale_size, interval_size> &key);
 
-consteval auto calculate_key(const Tonic starting_interval,
-                             const std::array<std::uint8_t, 7> intervals = {2, 2, 1, 2, 2, 2, 1},
-                             const std::array<std::array<char, 4>, 12> chromatic_scale = {
-                                 {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}});
+template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7>
+consteval std::array<char, 64> generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key);
 
-consteval std::array<std::array<char, 64>, 12> create_circle_of_fiths();
-
-consteval std::array<char, 64> prepend_title_to_key(const std::array<char, 32> calculated_key, const Tonic tonic,
-                                                    const Scale scale);
 } // namespace Music
 
 #include "music.ipp"

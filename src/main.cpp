@@ -4,8 +4,8 @@
 
 int main()
 {
-  for (const auto &key : Music::create_circle_of_fiths())
-    std::println("{:s}", key);
+  static constexpr auto c_major{Music::Key<>{}};
+  std::println("{:s}", Music::generate_title_and_notes(c_major));
 
   return 0;
 }
