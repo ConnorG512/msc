@@ -43,7 +43,7 @@ consteval auto calculate_key(const Tonic starting_interval,
                              const std::array<std::array<char, 4>, 12> chromatic_scale = {
                                  {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}});
 
-consteval std::array<std::array<char, 32>, 12> create_circle_of_fiths();
+consteval std::array<std::array<char, 64>, 12> create_circle_of_fiths();
 
 consteval std::array<char, 64> prepend_title_to_key(const std::array<char, 32> calculated_key, const Tonic tonic,
                                                     const Scale scale);

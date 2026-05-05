@@ -3,6 +3,7 @@
 #include "music.hpp"
 
 #include <algorithm>
+#include <array>
 #include <ranges>
 #include <string>
 #include <string_view>
@@ -31,23 +32,40 @@ consteval auto Music::calculate_key(const Music::Tonic starting_interval, const 
   return final_buffer;
 }
 
-consteval std::array<std::array<char, 32>, 12> Music::create_circle_of_fiths()
+consteval std::array<std::array<char, 64>, 12> Music::create_circle_of_fiths()
 {
+  constexpr auto intervals = std::to_array<std::uint8_t>({2, 2, 1, 2, 2, 2, 1});
+
   return std::to_array({
-      calculate_key(Music::Tonic::C),
-      calculate_key(Music::Tonic::G),
-      calculate_key(Music::Tonic::D),
-      calculate_key(Music::Tonic::A),
-      calculate_key(Music::Tonic::E),
-      calculate_key(Music::Tonic::B),
-      calculate_key(Music::Tonic::F_SHARP, {2, 2, 1, 2, 2, 2, 1},
-                    {"C", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}),
-      calculate_key(Music::Tonic::C_SHARP, {2, 2, 1, 2, 2, 2, 1},
-                    {"C", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}),
-      calculate_key(Music::Tonic::F),
-      calculate_key(Music::Tonic::B_FLAT),
-      calculate_key(Music::Tonic::E_FLAT),
-      calculate_key(Music::Tonic::A_FLAT),
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::C), Music::Tonic::C, Music::Scale::MAJOR),
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::G), Music::Tonic::G, Music::Scale::MAJOR),
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::D), Music::Tonic::D, Music::Scale::MAJOR),
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::A), Music::Tonic::A, Music::Scale::MAJOR),
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::E), Music::Tonic::E, Music::Scale::MAJOR),
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::B), Music::Tonic::B, Music::Scale::MAJOR),
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::F_SHARP, intervals,
+                                                {"C", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}),
+                                  Music::Tonic::F_SHARP, Music::Scale::MAJOR),
+
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::C_SHARP, intervals,
+                                                {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}),
+                                  Music::Tonic::C_SHARP, Music::Scale::MAJOR),
+
+      Music::prepend_title_to_key(
+          calculate_key(Music::Tonic::F, intervals, {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
+          Music::Tonic::F, Music::Scale::MAJOR),
+
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::B_FLAT, intervals,
+                                                {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
+                                  Music::Tonic::B_FLAT, Music::Scale::MAJOR),
+
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::E_FLAT, intervals,
+                                                {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
+                                  Music::Tonic::E_FLAT, Music::Scale::MAJOR),
+
+      Music::prepend_title_to_key(calculate_key(Music::Tonic::A_FLAT, intervals,
+                                                {"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
+                                  Music::Tonic::A_FLAT, Music::Scale::MAJOR),
   });
 }
 
