@@ -5,8 +5,7 @@
 int main()
 {
   static constexpr auto c_major {Music::Key<>{}};
-  std::println("{} {}", c_major.get_tonic_note(), c_major.scale_name);
-  std::println("{:s}", c_major.generate_key());
+  std::println("{:s}", Music::generate_title_and_notes(c_major));
 
   return 0;
 }
