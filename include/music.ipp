@@ -72,12 +72,12 @@ template <std::size_t chromatic_scale_size, std::size_t interval_size>
 consteval std::array<char, 64> Music::generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key)
 {
   std::string output{};
-  output.append(key.get_tonic_note());
+  output.append(key.get_tonic_note().data());
   output += ' ';
-  output.append(key.scale_name);
+  output.append(key.scale_name.data());
   output += ':';
   output += ' ';
-  output.append(key.generate_key());
+  output.append(key.generate_key().data());
   output += ' ';
   output += '\0';
   
