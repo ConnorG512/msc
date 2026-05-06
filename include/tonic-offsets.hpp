@@ -1,5 +1,6 @@
+#include <cstdint>
 namespace Music {
-  enum class Tonic {
+  enum class Tonic : std::int8_t {
     C = 0,
     D = 2,
     E = 4,
