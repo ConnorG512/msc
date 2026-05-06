@@ -1,4 +1,7 @@
+#pragma once 
+
 #include <cstdint>
+
 namespace Music {
   enum class Tonic : std::int8_t {
     C = 0,
