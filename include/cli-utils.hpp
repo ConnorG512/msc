@@ -31,7 +31,7 @@ consteval CmdArg<arg_size, desc_size> create_arg(const std::pair<const std::stri
     output.append(flags.second);
 
     std::array<char, arg_size> buffer{};
-    if (output.size() > buffer.size())
+    if (output.size() >= buffer.size())
       throw "Output is too large for buffer!";
     else
     {
@@ -43,14 +43,14 @@ consteval CmdArg<arg_size, desc_size> create_arg(const std::pair<const std::stri
   std::array<char, desc_size> final_desc_buffer = [](const std::string_view description)
   {
     std::array<char, desc_size> buffer{};
-    if (description.size() > buffer.size())
+    if (description.size() >= buffer.size())
       throw "Output is too large for buffer!";
     else
     {
       std::ranges::copy(description, std::ranges::begin(buffer));
       return buffer;
     }
-  }();
+  }(description);
 
   return {final_desc_buffer, final_arg_buffer};
 }
