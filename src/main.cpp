@@ -13,8 +13,8 @@
 
 int main(int argc, char **argv)
 {
-  constexpr static auto scale_arg {MSC::create_arg({"s", "scale"}, "Chosen Scale.")};
-  constexpr static auto tonic_arg {MSC::create_arg({"t", "tonic"}, "Chosen Tonic.")};
+  static constexpr auto scale_arg {MSC::create_arg({"s", "scale"}, "Chosen Scale.")};
+  static constexpr auto tonic_arg {MSC::create_arg({"t", "tonic"}, "Chosen Tonic.")};
 
   CLI::App app{"Music scale printer."};
   argv = app.ensure_utf8(argv);
