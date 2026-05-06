@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 
   std::string scale{};
   std::string tonic{};
+  
   app.add_option(scale_arg.args.data(), scale, scale_arg.description.data());
   app.add_option(tonic_arg.args.data(), tonic, tonic_arg.description.data());
 
