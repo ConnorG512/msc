@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <print>
 #include <string>
+#include <string_view>
 
 int main(int argc, char **argv)
 {
@@ -31,26 +32,25 @@ int main(int argc, char **argv)
   {
     static constexpr auto major_keys =
         std::to_array<std::pair<const std::string_view, const std::array<char, 64>>, 13>({
-            {"c", Music::generate_title_and_notes(Music::Key{Music::Tonic::C, "Major"})},
-            {"d", Music::generate_title_and_notes(Music::Key{Music::Tonic::D, "Major"})},
-            {"e", Music::generate_title_and_notes(Music::Key{Music::Tonic::E, "Major"})},
-            {"f", Music::generate_title_and_notes(
-                      Music::Key{Music::Tonic::F, "Major", Music::ChromaticScales::standard_flat})},
-            {"g", Music::generate_title_and_notes(Music::Key{Music::Tonic::G, "Major"})},
-            {"a", Music::generate_title_and_notes(Music::Key{Music::Tonic::A, "Major"})},
-            {"b", Music::generate_title_and_notes(Music::Key{Music::Tonic::B, "Major"})},
-            {"f#", Music::generate_title_and_notes(Music::Key{Music::Tonic::F_SHARP, "Major"})},
+            {"c", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::C, "Major"})},
+            {"d", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D, "Major"})},
+            {"e", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E, "Major"})},
+            {"f", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F, "Major", MSC::ChromaticScales::standard_flat})},
+            {"g", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::G, "Major"})},
+            {"a", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A, "Major"})},
+            {"b", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B, "Major"})},
+            {"f#", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F_SHARP, "Major"})},
             {"c#",
-             Music::generate_title_and_notes(Music::Key{
-                 Music::Tonic::C_SHARP, "Major", {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}})},
-            {"bb", Music::generate_title_and_notes(
-                       Music::Key{Music::Tonic::B_FLAT, "Major", Music::ChromaticScales::standard_flat})},
-            {"eb", Music::generate_title_and_notes(
-                       Music::Key{Music::Tonic::E_FLAT, "Major", Music::ChromaticScales::standard_flat})},
-            {"ab", Music::generate_title_and_notes(
-                       Music::Key{Music::Tonic::A_FLAT, "Major", Music::ChromaticScales::standard_flat})},
-            {"db", Music::generate_title_and_notes(
-                       Music::Key{Music::Tonic::D_FLAT, "Major", Music::ChromaticScales::standard_flat})},
+             MSC::generate_title_and_notes(MSC::Key{
+                 MSC::Tonic::C_SHARP, "Major", {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}})},
+            {"bb",
+             MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B_FLAT, "Major", MSC::ChromaticScales::standard_flat})},
+            {"eb",
+             MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E_FLAT, "Major", MSC::ChromaticScales::standard_flat})},
+            {"ab",
+             MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A_FLAT, "Major", MSC::ChromaticScales::standard_flat})},
+            {"db",
+             MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D_FLAT, "Major", MSC::ChromaticScales::standard_flat})},
         });
 
     for (const auto [flag, key_buffer] : major_keys)
