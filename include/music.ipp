@@ -7,14 +7,15 @@
 #include <ranges>
 #include <string>
 #include <string_view>
+#include <utility>
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
 consteval Music::Key<chromatic_scale_size, interval_size>::Key(
-    const std::int8_t starting_interval, const std::string_view scale_name,
+    const Tonic starting_interval, const std::string_view scale_name,
     std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale,
     std::array<std::int8_t, interval_size> intervals)
     : chromatic_scale{chromatic_scale}, intervals{intervals}, scale_name{scale_name},
-      starting_interval{starting_interval}
+      starting_interval{std::to_underlying(starting_interval)}
 {
 }
 
