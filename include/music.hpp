@@ -1,5 +1,7 @@
 #pragma once
 
+#include "tonic-offsets.hpp"
+
 #include <array>
 #include <cstdint>
 #include <string_view>
@@ -11,7 +13,7 @@ template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7> 
 {
 public:
   // Functions:
-  consteval Key(const std::int8_t starting_interval, const std::string_view scale_name,
+  consteval Key(const Tonic starting_interval, const std::string_view scale_name,
                 std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale = {"C", "C#", "D", "D#", "E", "F",
                                                                                          "F#", "G", "G#", "A", "A#",
                                                                                          "B"},
@@ -30,7 +32,7 @@ public:
 
 // User defined CTAD:
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-Key(std::int8_t, std::string_view, std::array<std::array<char, 4>, chromatic_scale_size>,
+Key(Tonic, std::string_view, std::array<std::array<char, 4>, chromatic_scale_size>,
     std::array<std::int8_t, interval_size>) -> Key<chromatic_scale_size, interval_size>;
 
 // Outer Interface:
