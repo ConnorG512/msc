@@ -2,7 +2,7 @@
 
 #include <array>
 
-namespace Music::ChromaticScales
+namespace MSC::ChromaticScales
 {
 constexpr inline std::array<std::array<char, 4>, 12> standard_sharp{"C",  "C#", "D",  "D#", "E",  "F",
                                                                     "F#", "G",  "G#", "A",  "A#", "B"};

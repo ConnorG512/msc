@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <string_view>
 
-namespace Music
+namespace MSC
 {
 
 template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7> class Key

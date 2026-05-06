@@ -26,6 +26,7 @@ endif()
 
 target_include_directories(${EXECUTABLE_NAME} PRIVATE 
   "${CMAKE_SOURCE_DIR}/include"
+  "${CMAKE_SOURCE_DIR}/external/cli11"
 )
 
 install(TARGETS ${EXECUTABLE_NAME} RUNTIME DESTINATION bin)

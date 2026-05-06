@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace Music {
+namespace MSC {
   enum class Tonic : std::int8_t {
     C = 0,
     D = 2,

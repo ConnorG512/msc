@@ -10,7 +10,7 @@
 #include <utility>
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval Music::Key<chromatic_scale_size, interval_size>::Key(
+consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
     const Tonic starting_interval, const std::string_view scale_name,
     std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale,
     std::array<std::int8_t, interval_size> intervals)
@@ -20,7 +20,7 @@ consteval Music::Key<chromatic_scale_size, interval_size>::Key(
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 32> Music::Key<chromatic_scale_size, interval_size>::generate_key() const
+consteval std::array<char, 32> MSC::Key<chromatic_scale_size, interval_size>::generate_key() const
 {
   std::string output{};
 
@@ -43,13 +43,13 @@ consteval std::array<char, 32> Music::Key<chromatic_scale_size, interval_size>::
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::string_view Music::Key<chromatic_scale_size, interval_size>::get_tonic_note() const
+consteval std::string_view MSC::Key<chromatic_scale_size, interval_size>::get_tonic_note() const
 {
   return chromatic_scale.at(starting_interval).data();
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 16> Music::generate_title(const Music::Key<chromatic_scale_size, interval_size> &key)
+consteval std::array<char, 16> MSC::generate_title(const MSC::Key<chromatic_scale_size, interval_size> &key)
 {
   std::string output{};
   output.append(key.get_tonic_note());
@@ -70,7 +70,7 @@ consteval std::array<char, 16> Music::generate_title(const Music::Key<chromatic_
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 64> Music::generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key)
+consteval std::array<char, 64> MSC::generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key)
 {
   std::string output{};
   output.append(key.get_tonic_note().data());
