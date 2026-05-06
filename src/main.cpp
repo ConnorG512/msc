@@ -1,4 +1,5 @@
 #include "chromatic-scales.hpp"
+#include "key_intervals.hpp"
 #include "music.hpp"
 
 #include "CLI11.hpp"
@@ -54,6 +55,44 @@ int main(int argc, char **argv)
         });
 
     for (const auto [flag, key_buffer] : major_keys)
+    {
+      if (flag == tonic)
+      {
+        std::println(stdout, "{:s}", key_buffer);
+      }
+    }
+  }
+  else if (scale == "minor")
+  {
+    static constexpr auto minor_keys =
+        std::to_array<std::pair<const std::string_view, const std::array<char, 64>>, 12>({
+            {"c", MSC::generate_title_and_notes(
+                      MSC::Key{MSC::Tonic::C, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor})},
+            {"d", MSC::generate_title_and_notes(
+                      MSC::Key{MSC::Tonic::D, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor})},
+            {"e", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E, "Minor", MSC::ChromaticScales::standard_sharp,
+                                                         MSC::KeyIntervals::Minor})},
+            {"f", MSC::generate_title_and_notes(
+                      MSC::Key{MSC::Tonic::F, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor})},
+            {"g", MSC::generate_title_and_notes(
+                      MSC::Key{MSC::Tonic::G, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor})},
+            {"a", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A, "Minor", MSC::ChromaticScales::standard_sharp,
+                                                         MSC::KeyIntervals::Minor})},
+            {"b", MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B, "Minor", MSC::ChromaticScales::standard_sharp,
+                                                         MSC::KeyIntervals::Minor})},
+            {"f#", MSC::generate_title_and_notes(MSC::Key{
+                       MSC::Tonic::F_SHARP, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor})},
+            {"bb", MSC::generate_title_and_notes(MSC::Key{
+                       MSC::Tonic::B_FLAT, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor})},
+            {"eb", MSC::generate_title_and_notes(MSC::Key{
+                       MSC::Tonic::E_FLAT, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor})},
+            {"g#", MSC::generate_title_and_notes(MSC::Key{
+                       MSC::Tonic::G_SHARP, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor})},
+            {"c#", MSC::generate_title_and_notes(MSC::Key{
+                       MSC::Tonic::C_SHARP, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor})},
+        });
+
+    for (const auto [flag, key_buffer] : minor_keys)
     {
       if (flag == tonic)
       {
