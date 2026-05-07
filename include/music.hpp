@@ -24,8 +24,7 @@ public:
   consteval std::string_view get_tonic_note() const;
 
   // Data:
-  std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale{{"C"},  {"C#"}, {"D"},  {"D#"}, {"E"},  {"F"},
-                                                                        {"F#"}, {"G"},  {"G#"}, {"A"},  {"A#"}, {"B"}};
+  std::array<std::string_view, chromatic_scale_size> chromatic_scale{ChromaticScales::standard_sharp};
   std::array<std::int8_t, interval_size> intervals{2, 2, 1, 2, 2, 2, 1};
   std::string_view scale_name{"Major"};
   std::int8_t starting_interval{0};
