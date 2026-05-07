@@ -77,7 +77,7 @@ namespace
 //      MSC::generate_hash("c#"),
 //    },
     {
-      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B_FLAT, MSC::ChromaticScales::standard_flat}),
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B_FLAT, "Major", MSC::ChromaticScales::standard_flat}),
       MSC::generate_hash("bb"),
     },
 //    {
@@ -85,7 +85,7 @@ namespace
 //      MSC::generate_hash("eb"),
 //    },
     {
-      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A_FLAT, MSC::ChromaticScales::standard_flat}),
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A_FLAT, "Major", MSC::ChromaticScales::standard_flat}),
       MSC::generate_hash("ab"),
     },
 //    {
