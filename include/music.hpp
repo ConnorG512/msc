@@ -18,23 +18,23 @@ public:
   consteval Key(
       const Tonic starting_interval, std::string_view scale_name = "Major",
       const std::array<std::string_view, chromatic_scale_size> &chromatic_scale = ChromaticScales::standard_sharp,
-      const std::array<const std::int8_t, interval_size> &intervals = {KeyIntervals::Major});
+      const std::array<std::int8_t, interval_size> &intervals = KeyIntervals::Major);
 
   consteval Key() = default;
-  consteval std::array<char, 16> generate_key() const;
+  consteval std::array<char, 32> generate_key() const;
   consteval std::string_view get_tonic_note() const;
 
   // Data:
-  std::array<std::string_view, chromatic_scale_size> chromatic_scale{ChromaticScales::standard_sharp};
-  std::array<std::int8_t, interval_size> intervals{KeyIntervals::Major};
-  std::string_view scale_name{"Major"};
-  std::int8_t starting_interval{0};
+  std::array<std::string_view, chromatic_scale_size> chromatic_scale_{ChromaticScales::standard_sharp};
+  std::array<std::int8_t, interval_size> intervals_{KeyIntervals::Major};
+  std::string_view scale_name_{"Major"};
+  std::int8_t starting_interval_{0};
 };
 
 // User defined CTAD:
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
 Key(Tonic, std::string_view, const std::array<std::string_view, chromatic_scale_size> &,
-    const std::array<const std::int8_t, interval_size> &) -> Key<chromatic_scale_size, interval_size>;
+    const std::array<std::int8_t, interval_size> &) -> Key<chromatic_scale_size, interval_size>;
 
 // Outer Interface:
 template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7>

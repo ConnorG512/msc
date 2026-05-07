@@ -13,30 +13,30 @@ template <std::size_t chromatic_scale_size, std::size_t interval_size>
 consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
     const Tonic starting_interval, std::string_view scale_name,
     const std::array<std::string_view, chromatic_scale_size> &chromatic_scale,
-    const std::array<const std::int8_t, interval_size> &intervals)
-    : chromatic_scale{chromatic_scale}, intervals{intervals}, scale_name{scale_name},
-      starting_interval{std::to_underlying(starting_interval)}
+    const std::array<std::int8_t, interval_size> &intervals)
+    : chromatic_scale_(chromatic_scale), intervals_(intervals), scale_name_(scale_name),
+      starting_interval_(std::to_underlying(starting_interval))
 {
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 16> MSC::Key<chromatic_scale_size, interval_size>::generate_key() const
+consteval std::array<char, 32> MSC::Key<chromatic_scale_size, interval_size>::generate_key() const
 {
   std::string output{};
 
-  auto current_interval{starting_interval};
+  auto current_interval{starting_interval_};
   ///
-  for (const auto &interval : intervals)
+  for (const auto &interval : intervals_)
   {
-    output.append(chromatic_scale.at(current_interval % chromatic_scale.size()).data());
+    output.append(chromatic_scale_.at(current_interval % chromatic_scale_.size()).data());
     output += ' ';
     current_interval += interval;
   }
   ///
-  output += chromatic_scale.at(starting_interval).data();
+  output += chromatic_scale_.at(starting_interval_).data();
   output += '\0';
 
-  std::array<char, 16> final_buffer{};
+  std::array<char, 32> final_buffer{};
   if (output.size() > final_buffer.size())
     throw "Output is too big for the final buffer, increase buffer size!";
 
@@ -47,7 +47,7 @@ consteval std::array<char, 16> MSC::Key<chromatic_scale_size, interval_size>::ge
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
 consteval std::string_view MSC::Key<chromatic_scale_size, interval_size>::get_tonic_note() const
 {
-  return chromatic_scale.at(starting_interval).data();
+  return chromatic_scale_.at(starting_interval_).data();
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
@@ -56,7 +56,7 @@ consteval std::array<char, 16> MSC::generate_title(const MSC::Key<chromatic_scal
   std::string output{};
   output.append(key.get_tonic_note());
   output += ' ';
-  output.append(key.scale_name);
+  output.append(key.scale_name_);
   output += ':';
   output += ' ';
   output += '\0';
@@ -77,7 +77,7 @@ consteval std::array<char, 64> MSC::generate_title_and_notes(const Key<chromatic
   std::string output{};
   output.append(key.get_tonic_note().data());
   output += ' ';
-  output.append(key.scale_name.data());
+  output.append(key.scale_name_.data());
   output += ':';
   output += ' ';
   output.append(key.generate_key().data());
