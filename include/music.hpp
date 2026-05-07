@@ -1,5 +1,6 @@
 #pragma once
 
+#include "chromatic-scales.hpp"
 #include "tonic-offsets.hpp"
 
 #include <array>
@@ -13,10 +14,11 @@ template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7> 
 {
 public:
   // Functions:
-  consteval Key(const Tonic starting_interval, const std::string_view scale_name,
-                std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale =
-                    {{"C"}, {"C#"}, {"D"}, {"D#"}, {"E"}, {"F"}, {"F#"}, {"G"}, {"G#"}, {"A"}, {"A#"}, {"B"}},
-                std::array<std::int8_t, interval_size> intervals = {2, 2, 1, 2, 2, 2, 1});
+  consteval Key(
+      const Tonic starting_interval, std::string_view scale_name,
+      const std::array<std::string_view, chromatic_scale_size> &chromatic_scale = ChromaticScales::standard_sharp,
+      const std::array<const std::int8_t, interval_size> &intervals = {2, 2, 1, 2, 2, 2, 1});
+
   consteval Key() = default;
   consteval std::array<char, 32> generate_key() const;
   consteval std::string_view get_tonic_note() const;
@@ -31,8 +33,8 @@ public:
 
 // User defined CTAD:
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-Key(Tonic, std::string_view, std::array<std::array<char, 4>, chromatic_scale_size>,
-    std::array<std::int8_t, interval_size>) -> Key<chromatic_scale_size, interval_size>;
+Key(Tonic, std::string_view, const std::array<std::string_view, chromatic_scale_size> &,
+    const std::array<const std::int8_t, interval_size> &) -> Key<chromatic_scale_size, interval_size>;
 
 // Outer Interface:
 template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7>
