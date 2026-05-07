@@ -45,51 +45,51 @@ namespace
   
   static constexpr std::array<MSC::SearchTable, 13> major_keys {{
     {
-      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::C, "Major"}),
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::C}),
       MSC::generate_hash("c"),
     },
     {
-      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D, "Major"}),
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D}),
       MSC::generate_hash("d"),
     },
     {
-      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E, "Major"}),
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E}),
       MSC::generate_hash("e"),
     },
 //    {
-//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F, "Major"}),
+//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F}),
 //      MSC::generate_hash("f"),
 //    },
 //    {
-//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::G, "Major"}),
+//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::G}),
 //      MSC::generate_hash("g"),
 //    },
 //    {
-//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A, "Major"}),
+//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A}),
 //      MSC::generate_hash("a"),
 //    },
     {
-      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B, "Major"}),
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B}),
       MSC::generate_hash("b"),
     },
 //    {
-//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::C_SHARP, "Major", {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}}),
+//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::C_SHARP, {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}}),
 //      MSC::generate_hash("c#"),
 //    },
     {
-      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B_FLAT, "Major", MSC::ChromaticScales::standard_flat}),
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B_FLAT, MSC::ChromaticScales::standard_flat}),
       MSC::generate_hash("bb"),
     },
 //    {
-//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E_FLAT, "Major"}),
+//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E_FLAT}),
 //      MSC::generate_hash("eb"),
 //    },
     {
-      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A_FLAT, "Major", MSC::ChromaticScales::standard_flat}),
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A_FLAT, MSC::ChromaticScales::standard_flat}),
       MSC::generate_hash("ab"),
     },
 //    {
-//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D_FLAT, "Major"}),
+//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D_FLAT}),
 //      MSC::generate_hash("db"),
 //    },
   }};
