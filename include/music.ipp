@@ -62,7 +62,7 @@ consteval std::array<char, 16> MSC::generate_title(const MSC::Key<chromatic_scal
   output += '\0';
 
   std::array<char, 16> final_buffer{};
-  if (output.size() >= final_buffer.size())
+  if (output.size() > final_buffer.size())
     throw "Output is too big for the final buffer, increase buffer size!";
   else
   {
