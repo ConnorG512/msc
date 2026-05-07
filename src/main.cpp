@@ -37,8 +37,11 @@ int main(int argc, char **argv)
 
   std::println("Scale Hash: [{}]", MSC::generate_hash(scale));
   std::println("Tonic Hash: [{}]", MSC::generate_hash(tonic));
+  
+  const auto chosen_scale_hash {MSC::generate_hash(scale)};
+  const auto chosen_tonic_hash {MSC::generate_hash(tonic)};
 
-  if (scale == "major")
+  if (chosen_scale_hash == MSC::generate_hash("major"))
   {
     static constexpr auto major_keys =
         std::to_array<std::pair<const std::string_view, const std::array<char, 64>>, 13>({
@@ -71,7 +74,7 @@ int main(int argc, char **argv)
       }
     }
   }
-  else if (scale == "minor")
+  else if (chosen_scale_hash == MSC::generate_hash("minor"))
   {
     static constexpr auto minor_keys =
         std::to_array<std::pair<const std::string_view, const std::array<char, 64>>, 12>({
