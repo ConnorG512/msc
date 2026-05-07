@@ -52,10 +52,10 @@ namespace
       MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D, "Major"}),
       MSC::generate_hash("d"),
     },
-//    {
-//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E, "Major"}),
-//      MSC::generate_hash("e"),
-//    },
+    {
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E, "Major"}),
+      MSC::generate_hash("e"),
+    },
 //    {
 //      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F, "Major"}),
 //      MSC::generate_hash("f"),
