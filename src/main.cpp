@@ -2,6 +2,7 @@
 #include "key_intervals.hpp"
 #include "music.hpp"
 #include "cli-utils.hpp"
+#include "fnv1a.hpp"
 
 #include "CLI11.hpp"
 
@@ -33,6 +34,9 @@ int main(int argc, char **argv)
   {
     return app.exit(e);
   }
+
+  std::println("Scale Hash: [{}]", MSC::generate_hash(scale));
+  std::println("Tonic Hash: [{}]", MSC::generate_hash(tonic));
 
   if (scale == "major")
   {
