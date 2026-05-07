@@ -1,6 +1,7 @@
 #pragma once
 
 #include "chromatic-scales.hpp"
+#include "key_intervals.hpp"
 #include "tonic-offsets.hpp"
 
 #include <array>
@@ -17,7 +18,7 @@ public:
   consteval Key(
       const Tonic starting_interval, std::string_view scale_name,
       const std::array<std::string_view, chromatic_scale_size> &chromatic_scale = ChromaticScales::standard_sharp,
-      const std::array<const std::int8_t, interval_size> &intervals = {2, 2, 1, 2, 2, 2, 1});
+      const std::array<const std::int8_t, interval_size> &intervals = {KeyIntervals::Major});
 
   consteval Key() = default;
   consteval std::array<char, 32> generate_key() const;
@@ -25,7 +26,7 @@ public:
 
   // Data:
   std::array<std::string_view, chromatic_scale_size> chromatic_scale{ChromaticScales::standard_sharp};
-  std::array<std::int8_t, interval_size> intervals{2, 2, 1, 2, 2, 2, 1};
+  std::array<std::int8_t, interval_size> intervals{KeyIntervals::Major};
   std::string_view scale_name{"Major"};
   std::int8_t starting_interval{0};
 };
