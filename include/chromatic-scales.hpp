@@ -5,8 +5,8 @@
 
 namespace MSC::ChromaticScales
 {
-constexpr inline std::array<const std::string_view, 12> standard_sharp{"C",  "C#", "D",  "D#", "E",  "F",
+constexpr inline std::array<std::string_view, 12> standard_sharp{"C",  "C#", "D",  "D#", "E",  "F",
                                                                        "F#", "G",  "G#", "A",  "A#", "B"};
-constexpr inline std::array<const std::string_view, 12> standard_flat{"C",  "Db", "D",  "Eb", "E",  "F",
+constexpr inline std::array<std::string_view, 12> standard_flat{"C",  "Db", "D",  "Eb", "E",  "F",
                                                                       "Gb", "G",  "Ab", "A",  "Bb", "B"};
 } // namespace MSC::ChromaticScales
