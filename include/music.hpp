@@ -16,7 +16,7 @@ template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7> 
 public:
   // Functions:
   consteval Key(
-      const Tonic starting_interval, std::string_view scale_name,
+      const Tonic starting_interval, std::string_view scale_name = "Major",
       const std::array<std::string_view, chromatic_scale_size> &chromatic_scale = ChromaticScales::standard_sharp,
       const std::array<const std::int8_t, interval_size> &intervals = {KeyIntervals::Major});
 
