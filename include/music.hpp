@@ -21,7 +21,7 @@ public:
       const std::array<const std::int8_t, interval_size> &intervals = {KeyIntervals::Major});
 
   consteval Key() = default;
-  consteval std::array<char, 32> generate_key() const;
+  consteval std::array<char, 16> generate_key() const;
   consteval std::string_view get_tonic_note() const;
 
   // Data:

@@ -20,7 +20,7 @@ consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 32> MSC::Key<chromatic_scale_size, interval_size>::generate_key() const
+consteval std::array<char, 16> MSC::Key<chromatic_scale_size, interval_size>::generate_key() const
 {
   std::string output{};
 
@@ -36,7 +36,7 @@ consteval std::array<char, 32> MSC::Key<chromatic_scale_size, interval_size>::ge
   output += chromatic_scale.at(starting_interval).data();
   output += '\0';
 
-  std::array<char, 32> final_buffer{};
+  std::array<char, 16> final_buffer{};
   if (output.size() > final_buffer.size())
     throw "Output is too big for the final buffer, increase buffer size!";
 
