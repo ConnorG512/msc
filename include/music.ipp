@@ -11,9 +11,9 @@
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
 consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
-    const Tonic starting_interval, const std::string_view scale_name,
-    std::array<std::array<char, 4>, chromatic_scale_size> chromatic_scale,
-    std::array<std::int8_t, interval_size> intervals)
+    const Tonic starting_interval, std::string_view scale_name,
+    const std::array<std::string_view, chromatic_scale_size> &chromatic_scale,
+    const std::array<const std::int8_t, interval_size> &intervals)
     : chromatic_scale{chromatic_scale}, intervals{intervals}, scale_name{scale_name},
       starting_interval{std::to_underlying(starting_interval)}
 {
