@@ -72,10 +72,10 @@ namespace
       MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B}),
       MSC::generate_hash("b"),
     },
-//    {
-//      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::C_SHARP, {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}}),
-//      MSC::generate_hash("c#"),
-//    },
+    {
+      MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::C_SHARP, "Major", {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}}),
+      MSC::generate_hash("c#"),
+    },
     {
       MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B_FLAT, "Major", MSC::ChromaticScales::standard_flat}),
       MSC::generate_hash("bb"),
