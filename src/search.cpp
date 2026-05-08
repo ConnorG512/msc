@@ -32,6 +32,10 @@ static constexpr std::array<MSC::SearchTable, 13> major_keys{{
         MSC::generate_hash("f"),
     },
     {
+        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F_SHARP, "Major", {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}}),
+        MSC::generate_hash("f#"),
+    },
+    {
         MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::G}),
         MSC::generate_hash("g"),
     },
