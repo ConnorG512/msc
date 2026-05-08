@@ -28,14 +28,12 @@ consteval std::array<char, 32> MSC::Key<chromatic_scale_size, interval_size>::ge
   std::string output{};
 
   auto current_interval{starting_interval_};
-  ///
   for (const auto &interval : intervals_)
   {
     output.append(chromatic_scale_.at(current_interval % chromatic_scale_.size()).data());
     output += ' ';
     current_interval += interval;
   }
-  ///
   output += chromatic_scale_.at(starting_interval_).data();
 
   std::array<char, 32> final_buffer{};
