@@ -8,6 +8,7 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <functional>
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
 consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
@@ -17,6 +18,8 @@ consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
     : chromatic_scale_(chromatic_scale), intervals_(intervals), scale_name_(scale_name),
       starting_interval_(std::to_underlying(starting_interval))
 {
+  if(std::ranges::fold_left(intervals_, 0, std::plus<>()) != 12)
+    throw "Intervals do not count up to 12 tone equal temperment!";
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
