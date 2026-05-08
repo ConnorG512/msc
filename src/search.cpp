@@ -142,23 +142,18 @@ void MSC::search(const std::size_t scale_hash_input, const std::size_t tonic_has
       MSC::generate_hash("major"),
       MSC::generate_hash("minor"),
   };
+  
+  auto return_scale_value = [](const std::span<const MSC::SearchTable> search_table, const std::size_t scale_hash_input, const std::size_t tonic_hash_input) -> std::string_view {
+    const auto tonic_result = std::ranges::find_if(search_table, [&tonic_hash_input](const MSC::SearchTable &key)
+                                                   { return key.arg_hash == tonic_hash_input; });
+    if (tonic_result == search_table.end())
+      return {};
+    else
+      return std::string_view(tonic_result->key_output).data();
+  };
 
   if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Major)))
-  {
-    const auto tonic_result = std::ranges::find_if(major_keys, [&tonic_hash_input](const MSC::SearchTable &key)
-                                                   { return key.arg_hash == tonic_hash_input; });
-    if (tonic_result == major_keys.end())
-      return;
-    else
-      std::println(stdout, "{:s}", std::string_view(tonic_result->key_output).data());
-  }
+    std::println(stdout, "{:s}", return_scale_value(major_keys, scale_hash_input, tonic_hash_input));
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Minor)))
-  {
-    const auto tonic_result = std::ranges::find_if(minor_keys, [&tonic_hash_input](const MSC::SearchTable &key)
-                                                   { return key.arg_hash == tonic_hash_input; });
-    if (tonic_result == minor_keys.end())
-      return;
-    else
-      std::println(stdout, "{:s}", std::string_view(tonic_result->key_output).data());
-  }
+    std::println(stdout, "{:s}", return_scale_value(minor_keys, scale_hash_input, tonic_hash_input));
 }
