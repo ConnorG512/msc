@@ -138,7 +138,7 @@ void MSC::search(const std::size_t scale_hash_input, const std::size_t tonic_has
     Major = 0,
     Minor = 1,
   };
-  static constexpr std::array<std::size_t, 2> scale_hashes{
+  static constexpr std::array scale_hashes{
       MSC::generate_hash("major"),
       MSC::generate_hash("minor"),
   };
