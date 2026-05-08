@@ -150,7 +150,7 @@ void MSC::search(const std::size_t scale_hash_input, const std::size_t tonic_has
     if (tonic_result == major_keys.end())
       return;
     else
-      std::println(stdout, "{:s}", tonic_result->key_output);
+      std::println(stdout, "{:s}", std::string_view(tonic_result->key_output).data());
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Minor)))
   {
@@ -159,6 +159,6 @@ void MSC::search(const std::size_t scale_hash_input, const std::size_t tonic_has
     if (tonic_result == minor_keys.end())
       return;
     else
-      std::println(stdout, "{:s}", tonic_result->key_output);
+      std::println(stdout, "{:s}", std::string_view(tonic_result->key_output).data());
   }
 }
