@@ -28,7 +28,7 @@ static constexpr std::array<MSC::SearchTable, 13> major_keys{{
         MSC::generate_hash("e"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F}),
+        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F, "Major", MSC::ChromaticScales::standard_flat}),
         MSC::generate_hash("f"),
     },
     {
