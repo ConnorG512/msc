@@ -142,6 +142,15 @@ void MSC::search(const std::size_t scale_hash_input, const std::size_t tonic_has
       MSC::generate_hash("major"),
       MSC::generate_hash("minor"),
   };
+  
+  auto return_scale_value = [](const std::size_t scale_hash_input, const std::size_t tonic_hash_input) -> std::string_view {
+    const auto tonic_result = std::ranges::find_if(major_keys, [&tonic_hash_input](const MSC::SearchTable &key)
+                                                   { return key.arg_hash == tonic_hash_input; });
+    if (tonic_result == major_keys.end())
+      return {};
+    else
+      return std::string_view(tonic_result->key_output);
+  };
 
   if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Major)))
   {
