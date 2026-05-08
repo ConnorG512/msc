@@ -37,7 +37,6 @@ consteval std::array<char, 32> MSC::Key<chromatic_scale_size, interval_size>::ge
   }
   ///
   output += chromatic_scale_.at(starting_interval_).data();
-  output += '\0';
 
   std::array<char, 32> final_buffer{};
   if (output.size() > final_buffer.size())
@@ -62,7 +61,6 @@ consteval std::array<char, 16> MSC::generate_title(const MSC::Key<chromatic_scal
   output.append(key.scale_name_);
   output += ':';
   output += ' ';
-  output += '\0';
 
   std::array<char, 16> final_buffer{};
   if (output.size() > final_buffer.size())
@@ -85,7 +83,6 @@ consteval std::array<char, 64> MSC::generate_title_and_notes(const Key<chromatic
   output += ' ';
   output.append(key.generate_key().data());
   output += ' ';
-  output += '\0';
 
   std::array<char, 64> final_buffer{};
   if (output.size() > final_buffer.size())
