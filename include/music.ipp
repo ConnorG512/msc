@@ -43,7 +43,9 @@ consteval std::array<char, 32> MSC::Key::Gen<interval_size>::generate_key(std::s
   std::string output{};
   std::array<char, 32> final_buffer{};
 
-  if (key_override.empty())
+  if (!key_override.empty())
+    std::ranges::copy(key_override, std::ranges::begin(final_buffer));
+  else
   {
     write_from_chromatic(output);
     if (output.size() > final_buffer.size())
@@ -52,10 +54,6 @@ consteval std::array<char, 32> MSC::Key::Gen<interval_size>::generate_key(std::s
     }
     else
       std::ranges::copy(output, std::ranges::begin(final_buffer));
-  }
-  else
-  {
-    std::ranges::copy(key_override, std::ranges::begin(final_buffer));
   }
 
   return final_buffer;
