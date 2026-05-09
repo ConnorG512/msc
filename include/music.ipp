@@ -4,11 +4,11 @@
 
 #include <algorithm>
 #include <array>
+#include <functional>
 #include <ranges>
 #include <string>
 #include <string_view>
 #include <utility>
-#include <functional>
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
 consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
@@ -18,23 +18,27 @@ consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
     : chromatic_scale_(chromatic_scale), intervals_(intervals), scale_name_(scale_name),
       starting_interval_(std::to_underlying(starting_interval))
 {
-  if(std::ranges::fold_left(intervals_, 0, std::plus<>()) != 12)
+  if (std::ranges::fold_left(intervals_, 0, std::plus<>()) != 12)
     throw "Intervals do not count up to 12 tone equal temperment!";
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 32> MSC::Key<chromatic_scale_size, interval_size>::generate_key() const
+consteval std::array<char, 32>
+MSC::Key<chromatic_scale_size, interval_size>::generate_key(std::string_view key_override) const
 {
   std::string output{};
 
-  auto current_interval{starting_interval_};
-  for (const auto &interval : intervals_)
+  if (key_override.empty())
   {
-    output.append(chromatic_scale_.at(current_interval % chromatic_scale_.size()).data());
-    output += ' ';
-    current_interval += interval;
+    auto current_interval{starting_interval_};
+    for (const auto &interval : intervals_)
+    {
+      output.append(chromatic_scale_.at(current_interval % chromatic_scale_.size()).data());
+      output += ' ';
+      current_interval += interval;
+    }
+    output += chromatic_scale_.at(starting_interval_).data();
   }
-  output += chromatic_scale_.at(starting_interval_).data();
 
   std::array<char, 32> final_buffer{};
   if (output.size() > final_buffer.size())
@@ -71,7 +75,8 @@ consteval std::array<char, 16> MSC::generate_title(const MSC::Key<chromatic_scal
 }
 
 template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 64> MSC::generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key)
+consteval std::array<char, 64> MSC::generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key,
+                                                             std::string_view key_override)
 {
   std::string output{};
   output.append(key.get_tonic_note().data());
@@ -79,7 +84,7 @@ consteval std::array<char, 64> MSC::generate_title_and_notes(const Key<chromatic
   output.append(key.scale_name_.data());
   output += ':';
   output += ' ';
-  output.append(key.generate_key().data());
+  output.append(key.generate_key(key_override).data());
   output += ' ';
 
   std::array<char, 64> final_buffer{};
