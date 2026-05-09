@@ -1,34 +1,34 @@
 #pragma once
 
 #include "music.hpp"
+#include "sharp-flat.hpp"
 
 #include <algorithm>
 #include <array>
-#include <functional>
 #include <ranges>
 #include <string>
 #include <string_view>
 #include <utility>
 
-template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval MSC::Key<chromatic_scale_size, interval_size>::Key(
-    const Tonic starting_interval, std::string_view scale_name,
-    const std::array<std::string_view, chromatic_scale_size> &chromatic_scale,
-    const std::array<std::int8_t, interval_size> &intervals)
-    : chromatic_scale_(chromatic_scale), intervals_(intervals), scale_name_(scale_name),
-      starting_interval_(std::to_underlying(starting_interval))
+// Constructor
+
+template <std::size_t interval_size>
+consteval MSC::Key::Gen<interval_size>::Gen(Tonic tonic, NoteType type,
+                                            const MSC::Key::Properties<interval_size> &key_properties)
+    : chromatic_scale_(
+          (type == NoteType::Sharp)
+              ? std::array<std::string_view, 12>{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
+              : std::array<std::string_view, 12>{"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
+      intervals_(key_properties.intervals), scale_name_(key_properties.name),
+      starting_interval_(std::to_underlying(tonic))
+
 {
-  if (std::ranges::fold_left(intervals_, 0, std::plus<>()) != 12)
-    throw "Intervals do not count up to 12 tone equal temperment!";
 }
 
-template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 32>
-MSC::Key<chromatic_scale_size, interval_size>::generate_key(std::string_view key_override) const
+template <std::size_t interval_size>
+consteval std::array<char, 32> MSC::Key::Gen<interval_size>::generate_key(std::string_view key_override) const
 {
-  std::string output{};
-
-  if (key_override.empty())
+  auto write_from_chromatic = [this](std::string &output) consteval
   {
     auto current_interval{starting_interval_};
     for (const auto &interval : intervals_)
@@ -38,29 +38,42 @@ MSC::Key<chromatic_scale_size, interval_size>::generate_key(std::string_view key
       current_interval += interval;
     }
     output += chromatic_scale_.at(starting_interval_).data();
+  };
+
+  std::string output{};
+  std::array<char, 32> final_buffer{};
+
+  if (key_override.empty())
+  {
+    write_from_chromatic(output);
+    if (output.size() > final_buffer.size())
+    {
+      throw "Output is too big for the final buffer, increase buffer size!";
+    }
+    else
+      std::ranges::copy(output, std::ranges::begin(final_buffer));
+  }
+  else
+  {
+    std::ranges::copy(key_override, std::ranges::begin(final_buffer));
   }
 
-  std::array<char, 32> final_buffer{};
-  if (output.size() > final_buffer.size())
-    throw "Output is too big for the final buffer, increase buffer size!";
-
-  std::ranges::copy(output, std::ranges::begin(final_buffer));
   return final_buffer;
 }
 
-template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::string_view MSC::Key<chromatic_scale_size, interval_size>::get_tonic_note() const
+template <std::size_t interval_size> consteval std::string_view MSC::Key::Gen<interval_size>::get_tonic_note() const
 {
   return chromatic_scale_.at(starting_interval_).data();
 }
 
-template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 16> MSC::generate_title(const MSC::Key<chromatic_scale_size, interval_size> &key)
+// Outer Interface:
+template <std::size_t interval_size>
+consteval std::array<char, 16> MSC::Key::generate_title(const MSC::Key::Gen<interval_size> &gen)
 {
   std::string output{};
-  output.append(key.get_tonic_note());
+  output.append(gen.get_tonic_note());
   output += ' ';
-  output.append(key.scale_name_);
+  output.append(gen.scale_name_);
   output += ':';
   output += ' ';
 
@@ -74,17 +87,17 @@ consteval std::array<char, 16> MSC::generate_title(const MSC::Key<chromatic_scal
   }
 }
 
-template <std::size_t chromatic_scale_size, std::size_t interval_size>
-consteval std::array<char, 64> MSC::generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key,
-                                                             std::string_view key_override)
+template <std::size_t interval_size>
+consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key::Gen<interval_size> &gen,
+                                                                  std::string_view key_override)
 {
   std::string output{};
-  output.append(key.get_tonic_note().data());
+  output.append(gen.get_tonic_note().data());
   output += ' ';
-  output.append(key.scale_name_.data());
+  output.append(gen.scale_name_.data());
   output += ':';
   output += ' ';
-  output.append(key.generate_key(key_override).data());
+  output.append((key_override.empty() ? gen.generate_key(key_override).data() : key_override.data()));
   output += ' ';
 
   std::array<char, 64> final_buffer{};
