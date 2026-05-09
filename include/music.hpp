@@ -1,48 +1,43 @@
 #pragma once
 
-#include "chromatic-scales.hpp"
-#include "key_intervals.hpp"
+#include "key-properties.hpp"
+#include "sharp-flat.hpp"
 #include "tonic-offsets.hpp"
 
 #include <array>
 #include <cstdint>
 #include <string_view>
 
-namespace MSC
+namespace MSC::Key
 {
-
-template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7> class Key
+template <std::size_t interval_size> class Gen
 {
 public:
-  // Functions:
-  consteval Key(
-      const Tonic starting_interval, std::string_view scale_name = "Major",
-      const std::array<std::string_view, chromatic_scale_size> &chromatic_scale = ChromaticScales::standard_sharp,
-      const std::array<std::int8_t, interval_size> &intervals = KeyIntervals::Major);
+  // Constructors:
+  consteval Gen(Tonic tonic, NoteType type, const MSC::Key::Properties<interval_size> &key_properties);
 
-  consteval Key() = default;
-  consteval std::array<char, 32> generate_key() const;
+  // Functions:
+  consteval std::array<char, 32> generate_key(std::string_view key_override = {}) const;
   consteval std::string_view get_tonic_note() const;
 
   // Data:
-  std::array<std::string_view, chromatic_scale_size> chromatic_scale_{ChromaticScales::standard_sharp};
-  std::array<std::int8_t, interval_size> intervals_{KeyIntervals::Major};
-  std::string_view scale_name_{"Major"};
-  std::int8_t starting_interval_{0};
+  std::array<std::string_view, 12> chromatic_scale_{};
+  std::array<std::int8_t, interval_size> intervals_{};
+  std::string_view scale_name_{};
+  std::int8_t starting_interval_{};
 };
 
 // User defined CTAD:
-template <std::size_t chromatic_scale_size, std::size_t interval_size>
-Key(Tonic, std::string_view, const std::array<std::string_view, chromatic_scale_size> &,
-    const std::array<std::int8_t, interval_size> &) -> Key<chromatic_scale_size, interval_size>;
+ template <std::size_t interval_size>
+ Gen(Tonic, NoteType, const MSC::Key::Properties<interval_size>&) -> Gen<interval_size>;
 
 // Outer Interface:
-template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7>
-consteval std::array<char, 16> generate_title(const Key<chromatic_scale_size, interval_size> &key);
+template <std::size_t interval_size>
+consteval std::array<char, 16> generate_title(const Gen<interval_size> &gen);
 
-template <std::size_t chromatic_scale_size = 12, std::size_t interval_size = 7>
-consteval std::array<char, 64> generate_title_and_notes(const Key<chromatic_scale_size, interval_size> &key);
-
-} // namespace MSC
+template <std::size_t interval_size>
+consteval std::array<char, 64> generate_title_and_notes(const Gen<interval_size> &gen,
+                                                        std::string_view key_override = {});
+} // namespace MSC::Key
 
 #include "music.ipp"

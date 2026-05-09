@@ -1,12 +1,17 @@
 #include "chromatic-scales.hpp"
 #include "fnv1a.hpp"
+#include "key-properties.hpp"
 #include "key_intervals.hpp"
 #include "music.hpp"
 #include "search.hpp"
+#include "sharp-flat.hpp"
 #include "tonic-offsets.hpp"
 
+#include "key-properties.hpp"
+#include "sharp-flat.hpp"
 #include <algorithm>
 #include <array>
+
 #include <cstddef>
 #include <print>
 #include <string_view>
@@ -16,119 +21,120 @@ namespace
 {
 static constexpr std::array<MSC::SearchTable, 13> major_keys{{
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::C}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("c"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("d"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("e"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F, "Major", MSC::ChromaticScales::standard_flat}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("f"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::F_SHARP, "Major", {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::major},
+                                           "F# G# A# B C# D# E# F#"),
         MSC::generate_hash("f#"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::G}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("g"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("a"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("b"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{
-            MSC::Tonic::C_SHARP, "Major", {"B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#", "A", "A#", "B"}}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::major},
+                                           std::string_view{"C# D# E# F# G# A# B# C#"}),
         MSC::generate_hash("c#"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::B_FLAT, "Major", MSC::ChromaticScales::standard_flat}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("bb"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::E_FLAT}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("eb"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::A_FLAT, "Major", MSC::ChromaticScales::standard_flat}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::A_FLAT, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("ab"),
     },
     {
-        MSC::generate_title_and_notes(MSC::Key{MSC::Tonic::D_FLAT}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D_FLAT, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("db"),
     },
 }};
 
 static constexpr std::array<MSC::SearchTable, 13> minor_keys{{
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::C, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("c"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::D, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("d"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::E, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("e"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::F, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("f"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::G, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("g"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::A, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("a"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::B, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("b"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::C_SHARP, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::major}),
         MSC::generate_hash("c#"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::B_FLAT, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("bb"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::E_FLAT, "Minor", MSC::ChromaticScales::standard_flat, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("eb"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::G_SHARP, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::G_SHARP, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("g#"),
     },
     {
-        MSC::generate_title_and_notes(
-            MSC::Key{MSC::Tonic::F_SHARP, "Minor", MSC::ChromaticScales::standard_sharp, MSC::KeyIntervals::Minor}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Flat, MSC::Key::major}),
         MSC::generate_hash("f#"),
     },
 }};
