@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <concepts>
 #include <cstddef>
 #include <cstdint>
 #include <functional>
@@ -12,8 +13,8 @@ namespace MSC::Key
 template <std::size_t interval_size> class Properties
 {
 public:
-  template <typename... Args>
-  consteval Properties(std::string_view name, Args... args)
+  template <std::integral... Intervals>
+  consteval Properties(std::string_view name, Intervals... args)
     :name_(name), intervals_{static_cast<std::int8_t>(args)...} {
       if(std::ranges::fold_left(intervals_, 0, std::plus<>()) != 12)
       {
@@ -25,8 +26,8 @@ public:
   std::array<std::int8_t, interval_size> intervals_{};
 };
 
-template <typename... Args>
-Properties(std::string_view, Args...) -> Properties<sizeof...(Args)>;
+template <std::integral... Intervals>
+Properties(std::string_view, Intervals...) -> Properties<sizeof...(Intervals)>;
 
 } // namespace MSC::Key
 
