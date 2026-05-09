@@ -19,7 +19,7 @@ consteval MSC::Key::Gen<interval_size>::Gen(Tonic tonic, NoteType type,
           (type == NoteType::Sharp)
               ? std::array<std::string_view, 12>{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
               : std::array<std::string_view, 12>{"C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"}),
-      intervals_(key_properties.intervals), scale_name_(key_properties.name),
+      intervals_(key_properties.intervals_), scale_name_(key_properties.name_),
       starting_interval_(std::to_underlying(tonic))
 
 {
