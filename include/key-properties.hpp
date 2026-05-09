@@ -31,5 +31,14 @@ Properties(std::string_view, Args...) -> Properties<sizeof...(Args)>;
 } // namespace MSC::Key
 
 namespace MSC::Key {
+  inline constexpr Properties ionian{"Ionian", 2,2,1,2,2,2,1};
+  inline constexpr Properties dorain{"Dorian", 2,1,2,2,2,1,2};
+  inline constexpr Properties phrygian{"Phrygian", 1,2,2,2,1,2,2};
+  inline constexpr Properties lydian{"Lydian", 2,2,2,1,2,2,1};
+  inline constexpr Properties mixolydian{"Mixolydian", 2,2,1,2,2,1,2};
+  inline constexpr Properties aeolian{"Aeolian", 2,1,2,2,1,2,2};
+  inline constexpr Properties locrian{"Locrian", 1,2,2,1,2,2,2};
+  
   inline constexpr Properties major{"Major", 2,2,1,2,2,2,1};
+  inline constexpr Properties minor{"Minor", 2,1,2,2,1,2,2};
 }
