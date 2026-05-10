@@ -352,11 +352,11 @@ static constexpr auto locrian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("d"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Sharp, MSC::Key::locrian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Flat, MSC::Key::locrian}),
         MSC::generate_hash("e"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::locrian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Sharp, MSC::Key::locrian}),
         MSC::generate_hash("f"),
     },
     {
@@ -382,8 +382,8 @@ static constexpr auto locrian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("c#"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::locrian}),
-        MSC::generate_hash("bb"),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::A_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}),
+        MSC::generate_hash("a#"),
     },
     {
         MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}),
