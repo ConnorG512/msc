@@ -236,7 +236,7 @@ static constexpr auto phrygian_keys = std::to_array<MSC::SearchTable>({
 
 static constexpr auto lydian_keys = std::to_array<MSC::SearchTable>({
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Flat, MSC::Key::lydian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Sharp, MSC::Key::lydian}),
         MSC::generate_hash("c"),
     },
     {
