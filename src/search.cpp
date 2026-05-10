@@ -276,7 +276,7 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Dorian)))
     std::println(stdout, "{:s}", return_scale_value(dorian_keys, scale_hash_input, tonic_hash_input));
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Phrygian)))
-    std::println(stdout, "{:s}", return_scale_value(dorian_keys, scale_hash_input, tonic_hash_input));
+    std::println(stdout, "{:s}", return_scale_value(phrygian_keys, scale_hash_input, tonic_hash_input));
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Minor)))
     std::println(stdout, "{:s}", return_scale_value(minor_keys, scale_hash_input, tonic_hash_input));
 }
