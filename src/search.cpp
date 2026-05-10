@@ -186,7 +186,7 @@ static constexpr auto phrygian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("c"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::phrygian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Flat, MSC::Key::phrygian}),
         MSC::generate_hash("d"),
     },
     {
@@ -207,7 +207,7 @@ static constexpr auto phrygian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("g"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::phrygian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Flat, MSC::Key::phrygian}),
         MSC::generate_hash("a"),
     },
     {
@@ -224,8 +224,8 @@ static constexpr auto phrygian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("bb"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::phrygian}),
-        MSC::generate_hash("eb"),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian}),
+        MSC::generate_hash("d#"),
     },
     {
         MSC::Key::generate_title_and_notes(
