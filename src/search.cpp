@@ -148,8 +148,16 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
     Minor = 1,
   };
   static constexpr std::array scale_hashes{
-      MSC::generate_hash("major"),
-      MSC::generate_hash("minor"),
+    MSC::generate_hash("ionian"),
+    MSC::generate_hash("dorian"),
+    MSC::generate_hash("phrygian"),
+    MSC::generate_hash("lydian"),
+    MSC::generate_hash("mixolydian"),
+    MSC::generate_hash("aeolian"),
+    MSC::generate_hash("locrian"),
+    
+    MSC::generate_hash("major"),
+    MSC::generate_hash("minor"),
   };
 
   auto return_scale_value = [](const std::span<const MSC::SearchTable> search_table, const std::uint64_t scale_hash_input,
