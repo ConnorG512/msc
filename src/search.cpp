@@ -224,7 +224,8 @@ static constexpr auto phrygian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("bb"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian}),
         MSC::generate_hash("d#"),
     },
     {
@@ -252,8 +253,7 @@ static constexpr auto lydian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("f"),
     },
     {
-        MSC::Key::generate_title_and_notes(
-            MSC::Key::Gen{MSC::Tonic::G_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::G_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}),
         MSC::generate_hash("gb"),
     },
     {
@@ -269,8 +269,7 @@ static constexpr auto lydian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("b"),
     },
     {
-        MSC::Key::generate_title_and_notes(
-            MSC::Key::Gen{MSC::Tonic::D_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}),
         MSC::generate_hash("db"),
     },
     {
@@ -282,8 +281,7 @@ static constexpr auto lydian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("eb"),
     },
     {
-        MSC::Key::generate_title_and_notes(
-            MSC::Key::Gen{MSC::Tonic::A_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::A_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}),
         MSC::generate_hash("ab"),
     },
 });
@@ -328,11 +326,13 @@ static constexpr auto mixolydian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("db"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}),
         MSC::generate_hash("bb"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}),
+        MSC::Key::generate_title_and_notes(
+            MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}),
         MSC::generate_hash("eb"),
     },
     {
@@ -360,8 +360,7 @@ static constexpr auto locrian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("f"),
     },
     {
-        MSC::Key::generate_title_and_notes(
-            MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}),
         MSC::generate_hash("f#"),
     },
     {
@@ -377,8 +376,7 @@ static constexpr auto locrian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("b"),
     },
     {
-        MSC::Key::generate_title_and_notes(
-            MSC::Key::Gen{MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}),
         MSC::generate_hash("c#"),
     },
     {
@@ -390,8 +388,7 @@ static constexpr auto locrian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("d#"),
     },
     {
-        MSC::Key::generate_title_and_notes(
-            MSC::Key::Gen{MSC::Tonic::G_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::G_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}),
         MSC::generate_hash("g#"),
     },
 });
@@ -409,7 +406,7 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
     Mixolydian = 4,
     Aeolian = 5,
     Locrian = 6,
-    
+
     Major = 7,
     Minor = 8,
   };
@@ -433,18 +430,34 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
       return std::string_view(tonic_result->key_output).data();
   };
 
-  if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Ionian)) || scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Major)))
+  if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Ionian)) ||
+      scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Major)))
+  {
     std::println(stdout, "{:s}", return_scale_value(major_keys, scale_hash_input, tonic_hash_input));
+  }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Dorian)))
+  {
     std::println(stdout, "{:s}", return_scale_value(dorian_keys, scale_hash_input, tonic_hash_input));
+  }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Phrygian)))
+  {
     std::println(stdout, "{:s}", return_scale_value(phrygian_keys, scale_hash_input, tonic_hash_input));
+  }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Lydian)))
+  {
     std::println(stdout, "{:s}", return_scale_value(lydian_keys, scale_hash_input, tonic_hash_input));
+  }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Mixolydian)))
+  {
     std::println(stdout, "{:s}", return_scale_value(mixolydian_keys, scale_hash_input, tonic_hash_input));
-  else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Aeolian)) || scale_hash_input ==  scale_hashes.at(std::to_underlying(Scales::Minor)))
+  }
+  else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Aeolian)) ||
+           scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Minor)))
+  {
     std::println(stdout, "{:s}", return_scale_value(minor_keys, scale_hash_input, tonic_hash_input));
+  }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Locrian)))
+  {
     std::println(stdout, "{:s}", return_scale_value(locrian_keys, scale_hash_input, tonic_hash_input));
+  }
 }
