@@ -145,7 +145,7 @@ static constexpr auto dorian_keys = std::to_array<MSC::SearchTable>({
     },
     {
         MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::dorian},
-                                           "F# G# A# B C# D# E# F#"),
+                                           "F# G# A B C# D# E F#"),
         MSC::generate_hash("f#"),
     },
     {
@@ -162,7 +162,7 @@ static constexpr auto dorian_keys = std::to_array<MSC::SearchTable>({
     },
     {
         MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::dorian},
-                                           std::string_view{"C# D# E# F# G# A# B# C#"}),
+                                           std::string_view{"C# D# E F# G# A# B C#"}),
         MSC::generate_hash("c#"),
     },
     {
