@@ -294,7 +294,7 @@ static constexpr auto mixolydian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("c"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Flat, MSC::Key::mixolydian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::mixolydian}),
         MSC::generate_hash("d"),
     },
     {
@@ -315,7 +315,7 @@ static constexpr auto mixolydian_keys = std::to_array<MSC::SearchTable>({
         MSC::generate_hash("g"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Flat, MSC::Key::mixolydian}),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::mixolydian}),
         MSC::generate_hash("a"),
     },
     {
@@ -324,21 +324,21 @@ static constexpr auto mixolydian_keys = std::to_array<MSC::SearchTable>({
     },
     {
         MSC::Key::generate_title_and_notes(
-            MSC::Key::Gen{MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::mixolydian}),
-        MSC::generate_hash("c#"),
+            MSC::Key::Gen{MSC::Tonic::D_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}),
+        MSC::generate_hash("db"),
     },
     {
         MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}),
         MSC::generate_hash("bb"),
     },
     {
-        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::mixolydian}),
-        MSC::generate_hash("d#"),
+        MSC::Key::generate_title_and_notes(MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}),
+        MSC::generate_hash("eb"),
     },
     {
         MSC::Key::generate_title_and_notes(
-            MSC::Key::Gen{MSC::Tonic::G_SHARP, MSC::NoteType::Sharp, MSC::Key::mixolydian}),
-        MSC::generate_hash("g#"),
+            MSC::Key::Gen{MSC::Tonic::A_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}),
+        MSC::generate_hash("ab"),
     },
 });
 
