@@ -12,7 +12,6 @@
 #include <algorithm>
 #include <array>
 
-#include <cstddef>
 #include <print>
 #include <string_view>
 #include <utility>
