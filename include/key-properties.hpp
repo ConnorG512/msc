@@ -14,8 +14,8 @@ template <std::size_t interval_size> class Properties
 {
 public:
   template <std::integral... Intervals>
-  consteval Properties(std::string_view name, Intervals... args)
-    :name_(name), intervals_{static_cast<std::int8_t>(args)...} {
+  consteval Properties(std::string_view name, Intervals... intervals)
+    :name_(name), intervals_{static_cast<std::int8_t>(intervals)...} {
       if(std::ranges::fold_left(intervals_, 0, std::plus<>()) != 12)
       {
         throw "Intervals do not add up to 12 tone scale!";
