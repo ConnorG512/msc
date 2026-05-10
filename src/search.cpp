@@ -410,8 +410,8 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
     Aeolian = 5,
     Locrian = 6,
     
-    Major = 8,
-    Minor = 9,
+    Major = 7,
+    Minor = 8,
   };
   static constexpr std::array scale_hashes{
       MSC::generate_hash("ionian"),  MSC::generate_hash("dorian"),     MSC::generate_hash("phrygian"),
@@ -433,7 +433,7 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
       return std::string_view(tonic_result->key_output).data();
   };
 
-  if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Ionian)) || scale_hashes.at(std::to_underlying(Scales::Major)))
+  if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Ionian)) || scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Major)))
     std::println(stdout, "{:s}", return_scale_value(major_keys, scale_hash_input, tonic_hash_input));
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Dorian)))
     std::println(stdout, "{:s}", return_scale_value(dorian_keys, scale_hash_input, tonic_hash_input));
@@ -443,7 +443,7 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
     std::println(stdout, "{:s}", return_scale_value(lydian_keys, scale_hash_input, tonic_hash_input));
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Mixolydian)))
     std::println(stdout, "{:s}", return_scale_value(mixolydian_keys, scale_hash_input, tonic_hash_input));
-  else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Aeolian)) || scale_hashes.at(std::to_underlying(Scales::Minor)))
+  else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Aeolian)) || scale_hash_input ==  scale_hashes.at(std::to_underlying(Scales::Minor)))
     std::println(stdout, "{:s}", return_scale_value(minor_keys, scale_hash_input, tonic_hash_input));
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Locrian)))
     std::println(stdout, "{:s}", return_scale_value(locrian_keys, scale_hash_input, tonic_hash_input));
