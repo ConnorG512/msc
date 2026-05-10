@@ -19,6 +19,7 @@ public:
   // Functions:
   consteval std::array<char, 32> generate_key(std::string_view key_override = {}) const;
   consteval std::string_view get_tonic_note() const;
+  consteval std::array<char, 64> get_jump_names() const;
 
   // Data:
   std::array<std::string_view, 12> chromatic_scale_{};

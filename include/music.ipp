@@ -64,6 +64,38 @@ template <std::size_t interval_size> consteval std::string_view MSC::Key::Gen<in
   return chromatic_scale_.at(starting_interval_).data();
 }
 
+template <std::size_t interval_size> consteval std::array<char, 64> MSC::Key::Gen<interval_size>::get_jump_names() const
+{
+  enum class Tones
+  {
+    Semitone = 1,
+    Tone = 2,
+    MinorThird = 3,
+    MajorThird = 4,
+  };
+
+  auto setup = intervals_ |
+               std::views::transform(
+                   [&](const auto interval) consteval -> std::string_view
+                   {
+                     if (interval == std::to_underlying(Tones::Semitone))
+                       return "Semitone";
+                     else if (interval == std::to_underlying(Tones::Tone))
+                       return "Tone";
+                     else if (interval == std::to_underlying(Tones::MinorThird))
+                       return "Minor-Third";
+                     else if (interval == std::to_underlying(Tones::MajorThird))
+                       return "Major-Third";
+                     else
+                       return "FIXME";
+                   }) |
+               std::views::join_with(std::string_view{", "}) | std::views::take(63);
+
+  std::array<char, 64> final_buffer{};
+  std::ranges::copy(setup, final_buffer.begin());
+  return final_buffer;
+}
+
 // Outer Interface:
 template <std::size_t interval_size>
 consteval std::array<char, 16> MSC::Key::generate_title(const MSC::Key::Gen<interval_size> &gen)
