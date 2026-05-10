@@ -141,7 +141,7 @@ static constexpr std::array<MSC::SearchTable, 13> minor_keys{{
 
 } // namespace
 
-void MSC::search(const std::size_t scale_hash_input, const std::size_t tonic_hash_input)
+void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic_hash_input)
 {
   enum class Scales
   {
@@ -153,8 +153,8 @@ void MSC::search(const std::size_t scale_hash_input, const std::size_t tonic_has
       MSC::generate_hash("minor"),
   };
 
-  auto return_scale_value = [](const std::span<const MSC::SearchTable> search_table, const std::size_t scale_hash_input,
-                               const std::size_t tonic_hash_input) -> std::string_view
+  auto return_scale_value = [](const std::span<const MSC::SearchTable> search_table, const std::uint64_t scale_hash_input,
+                               const std::uint64_t tonic_hash_input) -> std::string_view
   {
     const auto tonic_result = std::ranges::find_if(search_table, [&tonic_hash_input](const MSC::SearchTable &key)
                                                    { return key.arg_hash == tonic_hash_input; });

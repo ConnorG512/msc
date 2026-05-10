@@ -1,14 +1,14 @@
 #pragma once
 
-#include <cstddef>
+#include <cstdint>
 #include <array>
 
 namespace MSC {
-  void search(const std::size_t scale_hash, const std::size_t tonic_hash); 
+  void search(const std::uint64_t scale_hash, const std::uint64_t tonic_hash); 
 
   struct SearchTable 
   {
     std::array<char, 64> key_output{};
-    std::size_t arg_hash{};
+    std::uint64_t arg_hash{};
   };
 }

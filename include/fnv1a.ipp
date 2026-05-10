@@ -7,9 +7,9 @@ template <MSC::Hash auto hash> inline constexpr auto MSC::generate_hash(const st
 {
   const auto [offset, prime] = []()
   {
-    if constexpr (std::is_same_v<decltype(hash), std::size_t>)
+    if constexpr (std::is_same_v<decltype(hash), std::uint64_t>)
     {
-      return std::pair<std::size_t, std::size_t>{0xcbf29ce484222325, 1099511628211};
+      return std::pair<std::uint64_t, std::uint64_t>{0xcbf29ce484222325, 1099511628211};
     }
     else
     {
