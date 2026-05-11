@@ -1,7 +1,5 @@
-#include "chromatic-scales.hpp"
 #include "fnv1a.hpp"
 #include "key-properties.hpp"
-#include "key_intervals.hpp"
 #include "music.hpp"
 #include "search.hpp"
 #include "sharp-flat.hpp"
@@ -13,6 +11,7 @@
 #include <array>
 
 #include <print>
+#include <stdexcept>
 #include <string_view>
 #include <utility>
 
@@ -77,64 +76,79 @@ static constexpr auto phrygian_keys = std::to_array<MSC::SearchTable>({
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::D, MSC::NoteType::Flat, MSC::Key::phrygian), MSC::generate_hash("d")),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::phrygian), MSC::generate_hash("e")),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::phrygian), MSC::generate_hash("f")),
-    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian), MSC::generate_hash("f#")),
+    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian),
+                     MSC::generate_hash("f#")),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::G, MSC::NoteType::Flat, MSC::Key::phrygian), MSC::generate_hash("g")),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::A, MSC::NoteType::Flat, MSC::Key::phrygian), MSC::generate_hash("a")),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::phrygian), MSC::generate_hash("b")),
-    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian), MSC::generate_hash("c#")),
-    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::phrygian), MSC::generate_hash("bb")),
-    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian), MSC::generate_hash("d#")),
-    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::G_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian), MSC::generate_hash("g#")),
+    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian),
+                     MSC::generate_hash("c#")),
+    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::phrygian),
+                     MSC::generate_hash("bb")),
+    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian),
+                     MSC::generate_hash("d#")),
+    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::G_SHARP, MSC::NoteType::Sharp, MSC::Key::phrygian),
+                     MSC::generate_hash("g#")),
 });
 
 static constexpr auto lydian_keys = std::to_array<MSC::SearchTable>({
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("c")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("d")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("e")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::lydian}, MSC::generate_hash("f")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}, MSC::generate_hash("gb")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("g")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("a")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("b")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}, MSC::generate_hash("db")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}, MSC::generate_hash("bb")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}, MSC::generate_hash("eb")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A_FLAT, MSC::NoteType::Flat, MSC::Key::lydian}, MSC::generate_hash("ab")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("c")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("d")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("e")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::lydian}, MSC::generate_hash("f")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G_FLAT, MSC::NoteType::Flat, MSC::Key::lydian},
+                     MSC::generate_hash("gb")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("g")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("a")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::lydian}, MSC::generate_hash("b")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D_FLAT, MSC::NoteType::Flat, MSC::Key::lydian},
+                     MSC::generate_hash("db")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::lydian},
+                     MSC::generate_hash("bb")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::lydian},
+                     MSC::generate_hash("eb")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A_FLAT, MSC::NoteType::Flat, MSC::Key::lydian},
+                     MSC::generate_hash("ab")),
 });
 
 static constexpr auto mixolydian_keys = std::to_array<MSC::SearchTable>({
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("c")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("d")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("e")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("f")),
-        MSC::SearchTable(
-            MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("f#")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("g")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("a")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("b")),
-        MSC::SearchTable(
-            MSC::Key::Gen{MSC::Tonic::D_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("db")),
-        MSC::SearchTable(
-            MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("bb")),
-        MSC::SearchTable(
-            MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("eb")),
-        MSC::SearchTable(
-            MSC::Key::Gen{MSC::Tonic::A_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("ab")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("c")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("d")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("e")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("f")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::mixolydian},
+                     MSC::generate_hash("f#")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Flat, MSC::Key::mixolydian}, MSC::generate_hash("g")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("a")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::mixolydian}, MSC::generate_hash("b")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian},
+                     MSC::generate_hash("db")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian},
+                     MSC::generate_hash("bb")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian},
+                     MSC::generate_hash("eb")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A_FLAT, MSC::NoteType::Flat, MSC::Key::mixolydian},
+                     MSC::generate_hash("ab")),
 });
 
 static constexpr auto locrian_keys = std::to_array<MSC::SearchTable>({
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("c")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("d")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("e")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("f")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("f#")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("g")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("a")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("b")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("c#")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("a#")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("d#")),
-        MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("g#")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("c")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("d")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("e")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("f")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian},
+                     MSC::generate_hash("f#")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("g")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("a")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("b")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian},
+                     MSC::generate_hash("c#")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::A_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian},
+                     MSC::generate_hash("a#")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian},
+                     MSC::generate_hash("d#")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian},
+                     MSC::generate_hash("g#")),
 });
 
 } // namespace
@@ -162,46 +176,52 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
       MSC::generate_hash("major"),   MSC::generate_hash("minor"),
   };
 
-  auto return_scale_value = [](const std::span<const MSC::SearchTable> search_table,
-                               const std::uint64_t scale_hash_input,
-                               const std::uint64_t tonic_hash_input) -> std::string_view
+  auto find_table = [](const std::span<const MSC::SearchTable> search_tables,
+                       std::uint64_t input_tonic_hash) -> const MSC::SearchTable &
   {
-    const auto tonic_result = std::ranges::find_if(search_table, [&tonic_hash_input](const MSC::SearchTable &key)
-                                                   { return key.arg_hash == tonic_hash_input; });
-    if (tonic_result == search_table.end())
-      return {};
-    else
-      return std::string_view(tonic_result->key_output).data();
+    const auto found_table = std::ranges::find_if(search_tables, [input_tonic_hash](const MSC::SearchTable &table)
+                                                  { return table.arg_hash_ == input_tonic_hash; });
+
+    if(found_table == search_tables.end())
+      throw std::runtime_error("Failed to find valid table!");
+    else return *found_table;
   };
 
   if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Ionian)) ||
       scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Major)))
   {
-    std::println(stdout, "{:s}", return_scale_value(major_keys, scale_hash_input, tonic_hash_input));
+    const auto found_table {find_table(major_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}\n\t{:s}", found_table.key_output_, found_table.jump_strings_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Dorian)))
   {
-    std::println(stdout, "{:s}", return_scale_value(dorian_keys, scale_hash_input, tonic_hash_input));
+    const auto found_table {find_table(dorian_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}\n\t{:s}", found_table.key_output_, found_table.jump_strings_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Phrygian)))
   {
-    std::println(stdout, "{:s}", return_scale_value(phrygian_keys, scale_hash_input, tonic_hash_input));
+    const auto found_table {find_table(phrygian_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}\n\t{:s}", found_table.key_output_, found_table.jump_strings_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Lydian)))
   {
-    std::println(stdout, "{:s}", return_scale_value(lydian_keys, scale_hash_input, tonic_hash_input));
+    const auto found_table {find_table(lydian_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}\n\t{:s}", found_table.key_output_, found_table.jump_strings_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Mixolydian)))
   {
-    std::println(stdout, "{:s}", return_scale_value(mixolydian_keys, scale_hash_input, tonic_hash_input));
+    const auto found_table {find_table(mixolydian_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}\n\t{:s}", found_table.key_output_, found_table.jump_strings_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Aeolian)) ||
            scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Minor)))
   {
-    std::println(stdout, "{:s}", return_scale_value(minor_keys, scale_hash_input, tonic_hash_input));
+    const auto found_table {find_table(minor_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}\n\t{:s}", found_table.key_output_, found_table.jump_strings_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Locrian)))
   {
-    std::println(stdout, "{:s}", return_scale_value(locrian_keys, scale_hash_input, tonic_hash_input));
+    const auto found_table {find_table(locrian_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}\n\t{:s}", found_table.key_output_, found_table.jump_strings_);
   }
 }
