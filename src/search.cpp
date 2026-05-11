@@ -135,7 +135,7 @@ static constexpr auto locrian_keys = std::to_array<MSC::SearchTable>({
     MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::C, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("c")),
     MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::D, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("d")),
     MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::E, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("e")),
-    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Sharp, MSC::Key::locrian}, MSC::generate_hash("f")),
+    MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("f")),
     MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::locrian},
                      MSC::generate_hash("f#")),
     MSC::SearchTable(MSC::Key::Gen{MSC::Tonic::G, MSC::NoteType::Flat, MSC::Key::locrian}, MSC::generate_hash("g")),
