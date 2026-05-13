@@ -64,6 +64,11 @@ template <std::size_t interval_size> consteval std::string_view MSC::Key::Gen<in
   return chromatic_scale_.at(starting_interval_).data();
 }
 
+template <std::size_t interval_size>
+consteval std::array<char, 128> MSC::Key::Gen<interval_size>::get_chords() const
+{
+}
+
 template <std::size_t interval_size> consteval std::array<char, 64> MSC::Key::Gen<interval_size>::get_jump_names() const
 {
   enum class Tones
