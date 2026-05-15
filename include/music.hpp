@@ -19,7 +19,6 @@ public:
   // Functions:
   consteval std::array<char, 32> generate_key(std::string_view key_override = {}) const;
   consteval std::string_view get_tonic_note() const;
-  consteval std::array<char, 128> get_chords() const;
   consteval std::array<char, 64> get_jump_names() const;
 
   // Data:
@@ -40,6 +39,8 @@ consteval std::array<char, 16> generate_title(const Gen<interval_size> &gen);
 template <std::size_t interval_size>
 consteval std::array<char, 64> generate_title_and_notes(const Gen<interval_size> &gen,
                                                         std::string_view key_override = {});
+
+consteval std::array<char, 64> get_chords(std::string_view key);
 } // namespace MSC::Key
 
 #include "music.ipp"

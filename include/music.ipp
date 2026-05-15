@@ -64,10 +64,6 @@ template <std::size_t interval_size> consteval std::string_view MSC::Key::Gen<in
   return chromatic_scale_.at(starting_interval_).data();
 }
 
-template <std::size_t interval_size>
-consteval std::array<char, 128> MSC::Key::Gen<interval_size>::get_chords() const
-{
-}
 
 template <std::size_t interval_size> consteval std::array<char, 64> MSC::Key::Gen<interval_size>::get_jump_names() const
 {
@@ -143,4 +139,30 @@ consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key
     std::ranges::copy(output, std::ranges::begin(final_buffer));
     return final_buffer;
   }
+}
+
+consteval std::array<char, 64> get_chords(std::string_view key)
+{
+  static constexpr auto remove_end{2};
+  auto notes = key 
+      | std::views::take(key.size() - remove_end) 
+      | std::views::filter([](const char c){return c != ' ';}) 
+      | std::ranges::to<std::string>();
+
+  std::string output{};
+  for(const auto [index, c] : notes | std::views::enumerate)
+  {
+      const auto root {index};
+      const auto third {(index + 2) % notes.size()};
+      const auto fith {(index + 4) % notes.size()};
+
+      output += c;
+      output += notes.at(third);
+      output += notes.at(fith);
+      output += " \n";
+  }
+
+  std::array<char, 64> final_buffer{};
+  std::ranges::copy(output, std::ranges::begin(final_buffer));
+  return {final_buffer};
 }
