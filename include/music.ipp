@@ -140,7 +140,7 @@ consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key
   }
 }
 
-consteval std::array<char, 64> get_chords(std::string_view key)
+consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
 {
   static constexpr auto remove_end{2};
   auto notes = key | std::views::take(key.size() - remove_end) |
