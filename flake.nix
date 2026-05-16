@@ -30,11 +30,25 @@
         buildInputs = [ ];
         cmakeFlags = [
           "-DCMAKE_BUILD_TYPE=Debug"
-          
+        ];
+      });
+
+      release = pkgs.stdenv.mkDerivation (finalAttrs: {
+        pname = appProperties.name;
+        version = appProperties.version;
+        src = ./.;
+
+        nativeBuildInputs = with pkgs; [
+          cmake
+          ninja
+        ];
+        buildInputs = [ ];
+        cmakeFlags = [
+          "-DCMAKE_BUILD_TYPE=Release"
         ];
       });
     };
-
+    
     devShells.x86_64-linux.default = pkgs.mkShell {
       packages = with pkgs; [ 
         clang-tools
