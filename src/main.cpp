@@ -6,6 +6,8 @@
 
 #include <array>
 #include <cstdlib>
+#include <exception>
+#include <print>
 #include <string>
 #include <string_view>
 
@@ -26,13 +28,18 @@ int main(int argc, char **argv)
   try
   {
     app.parse(argc, argv);
+    MSC::search(MSC::generate_hash(scale.data()), MSC::generate_hash(tonic.data()));
   }
   catch (const CLI::ParseError &e)
   {
     return app.exit(e);
   }
+  catch (std::exception &e)
+  {
+    std::println(stderr, "Exception caught! Error: {}", e.what());
+    return EXIT_FAILURE;
+  }
 
-  MSC::search(MSC::generate_hash(scale.data()), MSC::generate_hash(tonic.data()));
 
   return EXIT_SUCCESS;
 }
