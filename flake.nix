@@ -12,6 +12,7 @@
     appProperties = {
       name = "msc";
       version = "1.0";
+      path = ./.;
     };
   in 
   {
@@ -19,7 +20,7 @@
       debug = pkgs.stdenv.mkDerivation (finalAttrs: {
         pname = appProperties.name;
         version = appProperties.version;
-        src = ./.;
+        src = appProperties.path;
 
         dontStrip = true;
 
@@ -30,11 +31,25 @@
         buildInputs = [ ];
         cmakeFlags = [
           "-DCMAKE_BUILD_TYPE=Debug"
-          
+        ];
+      });
+
+      release = pkgs.stdenv.mkDerivation (finalAttrs: {
+        pname = appProperties.name;
+        version = appProperties.version;
+        src = appProperties.path;
+
+        nativeBuildInputs = with pkgs; [
+          cmake
+          ninja
+        ];
+        buildInputs = [ ];
+        cmakeFlags = [
+          "-DCMAKE_BUILD_TYPE=Release"
         ];
       });
     };
-
+    
     devShells.x86_64-linux.default = pkgs.mkShell {
       packages = with pkgs; [ 
         clang-tools
