@@ -146,15 +146,16 @@ consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key
 
 consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
 {
-  const std::size_t end {key.find('\0')};
-  
+  const std::size_t end{key.find('\0')};
+
   std::string_view current_key{key.data(), key.find('\0')};
-  
+
   static constexpr auto remove_end{2};
   auto notes = current_key | std::views::split(' ') |
                std::views::transform([](auto &&note_str) { return std::string_view(note_str); }) |
                std::ranges::to<std::vector<std::string>>();
-  if(!notes.empty())
+
+  if (!notes.empty())
     notes.pop_back();
 
   std::string output{};
