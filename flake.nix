@@ -12,6 +12,7 @@
     appProperties = {
       name = "msc";
       version = "1.0";
+      path = ./.;
     };
   in 
   {
@@ -19,7 +20,7 @@
       debug = pkgs.stdenv.mkDerivation (finalAttrs: {
         pname = appProperties.name;
         version = appProperties.version;
-        src = ./.;
+        src = appProperties.path;
 
         dontStrip = true;
 
@@ -36,7 +37,7 @@
       release = pkgs.stdenv.mkDerivation (finalAttrs: {
         pname = appProperties.name;
         version = appProperties.version;
-        src = ./.;
+        src = appProperties.path;
 
         nativeBuildInputs = with pkgs; [
           cmake
