@@ -29,16 +29,17 @@ public:
 };
 
 // User defined CTAD:
- template <std::size_t interval_size>
- Gen(Tonic, NoteType, const MSC::Key::Properties<interval_size>&) -> Gen<interval_size>;
+template <std::size_t interval_size>
+Gen(Tonic, NoteType, const MSC::Key::Properties<interval_size> &) -> Gen<interval_size>;
 
 // Outer Interface:
-template <std::size_t interval_size>
-consteval std::array<char, 16> generate_title(const Gen<interval_size> &gen);
+template <std::size_t interval_size> consteval std::array<char, 16> generate_title(const Gen<interval_size> &gen);
 
 template <std::size_t interval_size>
 consteval std::array<char, 64> generate_title_and_notes(const Gen<interval_size> &gen,
                                                         std::string_view key_override = {});
+
+consteval std::array<char, 64> get_chords(std::string_view key);
 } // namespace MSC::Key
 
 #include "music.ipp"

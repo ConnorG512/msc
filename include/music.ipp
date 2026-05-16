@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <array>
+#include <iterator>
 #include <ranges>
 #include <string>
 #include <string_view>
@@ -38,6 +39,7 @@ consteval std::array<char, 32> MSC::Key::Gen<interval_size>::generate_key(std::s
       current_interval += interval;
     }
     output += chromatic_scale_.at(starting_interval_).data();
+    output += '\0';
   };
 
   std::string output{};
@@ -106,6 +108,7 @@ consteval std::array<char, 16> MSC::Key::generate_title(const MSC::Key::Gen<inte
   output.append(gen.scale_name_);
   output += ':';
   output += ' ';
+  output += '\0';
 
   std::array<char, 16> final_buffer{};
   if (output.size() > final_buffer.size())
@@ -129,6 +132,7 @@ consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key
   output += ' ';
   output.append((key_override.empty() ? gen.generate_key(key_override).data() : key_override.data()));
   output += ' ';
+  output += '\0';
 
   std::array<char, 64> final_buffer{};
   if (output.size() > final_buffer.size())
@@ -138,4 +142,42 @@ consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key
     std::ranges::copy(output, std::ranges::begin(final_buffer));
     return final_buffer;
   }
+}
+
+consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
+{
+  const std::size_t end{key.find('\0')};
+
+  std::string_view current_key{key.data(), key.find('\0')};
+
+  static constexpr auto remove_end{2};
+  auto notes = current_key | std::views::split(' ') |
+               std::views::transform([](auto &&note_str) { return std::string_view(note_str); }) |
+               std::ranges::to<std::vector<std::string>>();
+
+  if (!notes.empty())
+    notes.pop_back();
+
+  std::string output{};
+  for (const auto [index, c] : notes | std::views::enumerate)
+  {
+    const auto root{index};
+    const auto third{(index + 2) % notes.size()};
+    const auto fith{(index + 4) % notes.size()};
+
+    output += c;
+    output += "-";
+    output += notes.at(third);
+    output += "-";
+    output += notes.at(fith);
+    output += "\n";
+  }
+
+  std::array<char, 64> final_buffer{};
+  if (output.size() >= final_buffer.size())
+    throw "Output is too big for the final buffer, increase buffer size!";
+
+  static constexpr auto max_range{63};
+  std::ranges::copy(output, std::ranges::begin(final_buffer));
+  return {final_buffer};
 }
