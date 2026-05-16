@@ -15,7 +15,7 @@ struct SearchTable
   template <std::size_t intervals>
   consteval SearchTable(const MSC::Key::Gen<intervals> &key, std::uint64_t hash, std::string_view override = {})
       : key_output_{MSC::Key::generate_title_and_notes(key)}, jump_strings_{key.get_jump_names()},
-        chords_{MSC::Key::get_chords(key_output_.data())}, arg_hash_{hash}
+        chords_{MSC::Key::get_chords(std::string_view{key.generate_key()})}, arg_hash_{hash}
   {
   }
 
