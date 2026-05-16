@@ -151,9 +151,11 @@ consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
   std::string_view current_key{key.data(), key.find('\0')};
   
   static constexpr auto remove_end{2};
-  auto notes = current_key | std::views::take(current_key.size() - remove_end) | std::views::split(' ') |
+  auto notes = current_key | std::views::split(' ') |
                std::views::transform([](auto &&note_str) { return std::string_view(note_str); }) |
                std::ranges::to<std::vector<std::string>>();
+  if(!notes.empty())
+    notes.pop_back();
 
   std::string output{};
   for (const auto [index, c] : notes | std::views::enumerate)
