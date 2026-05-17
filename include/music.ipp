@@ -113,7 +113,6 @@ consteval std::array<char, 512> MSC::Key::generate_final_output(const MSC::Key::
                                                                 std::string_view key_override)
 {
   using namespace std::string_view_literals;
-  using namespace std::string_literals;
 
   const auto key_array {gen.generate_key()};
   return append_strings_to_buffer<512>({
