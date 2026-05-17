@@ -3,6 +3,7 @@
 #include "music.hpp"
 #include "sharp-flat.hpp"
 #include "string_append.hpp"
+#include "ansi.hpp"
 
 #include <algorithm>
 #include <array>
@@ -105,7 +106,7 @@ consteval std::array<char, 32> MSC::Key::generate_title(const MSC::Key::Gen<inte
 {
   using namespace std::string_view_literals;
 
-  return append_strings_to_buffer<32>({std::string_view(gen.get_tonic_note()), " "sv, std::string_view(gen.scale_name_), ": "sv});
+  return append_strings_to_buffer<32>({std::string_view(gen.get_tonic_note()), " "sv, std::string_view(gen.scale_name_), ":"sv});
 }
 
 template <std::size_t interval_size>
@@ -113,17 +114,24 @@ consteval std::array<char, 512> MSC::Key::generate_final_output(const MSC::Key::
                                                                 std::string_view key_override)
 {
   using namespace std::string_view_literals;
-  using namespace std::string_literals;
 
   const auto key_array {gen.generate_key()};
   return append_strings_to_buffer<512>({
+      MSC::Ansi::bold.start_,
+      MSC::Ansi::underline.start_,
       std::string_view(MSC::Key::generate_title(gen)),
+      MSC::Ansi::bold.end_,
+      MSC::Ansi::underline.end_,
       "\n\t"sv,
       std::string_view(key_array),
       "\n\t"sv,
       std::string_view(gen.get_jump_names()),
       "\n\n"sv,
+      MSC::Ansi::bold.start_,
+      MSC::Ansi::underline.start_,
       "Chords:\n"sv,
+      MSC::Ansi::bold.end_,
+      MSC::Ansi::underline.end_,
       std::string_view(MSC::Key::get_chords(std::string_view(key_array))),
   });
 }
