@@ -23,8 +23,8 @@ constexpr std::array<char, buffer_size> append_strings_to_buffer(std::initialize
 
   if (output.size() >= buffer_size)
     throw "Output string is too large for the buffer size, incease buffer!";
-
-  std::array<char, buffer_size> final_buffer{};
+  
+  std::array<char, buffer_size> final_buffer{}; 
   std::ranges::copy(output, std::ranges::begin(final_buffer));
   return final_buffer;
 }
