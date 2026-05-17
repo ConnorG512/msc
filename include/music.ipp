@@ -122,25 +122,29 @@ consteval std::array<char, 16> MSC::Key::generate_title(const MSC::Key::Gen<inte
 
 template <std::size_t interval_size>
 consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::Gen<interval_size> &gen,
-                                                                  std::string_view key_override)
+                                                                std::string_view key_override)
 {
   using namespace std::string_view_literals;
   using namespace std::string_literals;
-  
-  static constexpr auto bold {std::make_pair("\u001b[1m"sv, "\u001b[22m"sv)};
+
+  static constexpr auto bold{std::make_pair("\u001b[1m"sv, "\u001b[22m"sv)};
+
+  std::string_view chords =
+      [](std::array<char, 64> buffer) consteval {
+        return std::string_view{buffer.data(), buffer.size()};
+      }(MSC::Key::get_chords(gen.generate_key().data()));
 
   std::string output{};
-  output.append(bold.first + gen.get_tonic_note() + ' ' + gen.scale_name_ + bold.second + ":\n"sv);
-  output.append(bold.first + "Notes"s + bold.second + ": "sv);
-  output.append((key_override.empty() ? gen.generate_key(key_override).data() : key_override.data()) + "\n\t"sv);
-  output.append(gen.get_jump_names() + "\n"sv);
-  output.append(bold.first + "Chords"s +  bold.second + ":\n\t"sv);
+  for (const auto &str :
+       {bold.first, gen.get_tonic_note(), " "sv, gen.scale_name_, bold.second, ":\n"sv, bold.first, "Notes:"sv,
+        bold.second, ": "sv, (key_override.empty() ? gen.generate_key(key_override) : ""), "\n\t"sv,
+        gen.get_jump_names(), "\n"sv, bold.first, "Chords:"sv, bold.second, ":\n\t"sv, chords})
+  {
+    output.append(str);
+  }
 
-  const auto chords {MSC::Key::get_chords(gen.generate_key().data())};
-  output.append(std::string_view(chords.data(), chords.size()));
-  
   std::array<char, 256> final_buffer{};
-  std::ranges::copy(output | std::views::take(final_buffer.size() -1), std::ranges::begin(final_buffer));
+  std::ranges::copy(output | std::views::take(final_buffer.size() - 1), std::ranges::begin(final_buffer));
   return final_buffer;
 }
 
