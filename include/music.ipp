@@ -132,10 +132,12 @@ consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::
   const auto key_array {gen.generate_key()};
   
   return append_strings_to_buffer<256>({
+      bold.first,
       std::string_view(MSC::Key::generate_title(gen)),
+      bold.second,
       "\n\t"sv,
       std::string_view(key_array),
-      "\n"sv,
+      "\n\t"sv,
       std::string_view(gen.get_jump_names()),
       "\n"sv,
       std::string_view(MSC::Key::get_chords(std::string_view(key_array))),
