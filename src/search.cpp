@@ -27,7 +27,7 @@ static constexpr auto major_keys = std::to_array<MSC::SearchTable>({
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::G, MSC::NoteType::Sharp, MSC::Key::major), MSC::generate_hash("g")),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::major), MSC::generate_hash("a")),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::major), MSC::generate_hash("b")),
-    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::major), MSC::generate_hash("b"),
+    MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::C_SHARP, MSC::NoteType::Sharp, MSC::Key::major), MSC::generate_hash("c#"),
                      "C# D# E# F# G# A# B# C#"),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::B_FLAT, MSC::NoteType::Flat, MSC::Key::major), MSC::generate_hash("bb")),
     MSC::SearchTable(MSC::Key::Gen(MSC::Tonic::E_FLAT, MSC::NoteType::Flat, MSC::Key::major), MSC::generate_hash("eb")),
