@@ -2,6 +2,7 @@
 
 #include "music.hpp"
 #include "sharp-flat.hpp"
+#include "string_append.hpp"
 
 #include <algorithm>
 #include <array>
@@ -128,24 +129,17 @@ consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::
   using namespace std::string_literals;
 
   static constexpr auto bold{std::make_pair("\u001b[1m"sv, "\u001b[22m"sv)};
-
-  std::string_view chords =
-      [](std::array<char, 64> buffer) consteval {
-        return std::string_view{buffer.data(), buffer.size()};
-      }(MSC::Key::get_chords(gen.generate_key().data()));
-
-  std::string output{};
-  for (const auto &str :
-       {bold.first, gen.get_tonic_note(), " "sv, gen.scale_name_, bold.second, ":\n"sv, bold.first, "Notes:"sv,
-        bold.second, ": "sv, (key_override.empty() ? gen.generate_key(key_override) : ""), "\n\t"sv,
-        gen.get_jump_names(), "\n"sv, bold.first, "Chords:"sv, bold.second, ":\n\t"sv, chords})
-  {
-    output.append(str);
-  }
-
-  std::array<char, 256> final_buffer{};
-  std::ranges::copy(output | std::views::take(final_buffer.size() - 1), std::ranges::begin(final_buffer));
-  return final_buffer;
+  const auto key_array {gen.generate_key()};
+  
+  return append_strings_to_buffer<256>({
+      std::string_view(MSC::Key::generate_title(gen)),
+      "\n\t"sv,
+      std::string_view(key_array),
+      "\n"sv,
+      std::string_view(gen.get_jump_names()),
+      "\n"sv,
+      std::string_view(MSC::Key::get_chords(std::string_view(key_array))),
+  });
 }
 
 consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
