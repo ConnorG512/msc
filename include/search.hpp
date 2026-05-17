@@ -19,7 +19,7 @@ struct SearchTable
   {
   }
 
-  std::array<char, 256> final_buffer_{};
+  std::array<char, 512> final_buffer_{};
   std::uint64_t arg_hash_{};
 };
 } // namespace MSC

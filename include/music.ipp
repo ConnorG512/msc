@@ -101,35 +101,22 @@ template <std::size_t interval_size> consteval std::array<char, 64> MSC::Key::Ge
 
 // Outer Interface:
 template <std::size_t interval_size>
-consteval std::array<char, 16> MSC::Key::generate_title(const MSC::Key::Gen<interval_size> &gen)
+consteval std::array<char, 32> MSC::Key::generate_title(const MSC::Key::Gen<interval_size> &gen)
 {
-  std::string output{};
-  output.append(gen.get_tonic_note());
-  output += ' ';
-  output.append(gen.scale_name_);
-  output += ':';
-  output += ' ';
-  output += '\0';
+  using namespace std::string_view_literals;
 
-  std::array<char, 16> final_buffer{};
-  if (output.size() > final_buffer.size())
-    throw "Output is too big for the final buffer, increase buffer size!";
-  else
-  {
-    std::ranges::copy(output, std::ranges::begin(final_buffer));
-    return final_buffer;
-  }
+  return append_strings_to_buffer<32>({std::string_view(gen.get_tonic_note()), " "sv, std::string_view(gen.scale_name_), ": \n"sv});
 }
 
 template <std::size_t interval_size>
-consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::Gen<interval_size> &gen,
+consteval std::array<char, 512> MSC::Key::generate_final_output(const MSC::Key::Gen<interval_size> &gen,
                                                                 std::string_view key_override)
 {
   using namespace std::string_view_literals;
   using namespace std::string_literals;
 
   const auto key_array {gen.generate_key()};
-  return append_strings_to_buffer<256>({
+  return append_strings_to_buffer<512>({
       std::string_view(MSC::Key::generate_title(gen)),
       "\n\t"sv,
       std::string_view(key_array),
