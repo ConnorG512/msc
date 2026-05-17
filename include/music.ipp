@@ -139,7 +139,7 @@ consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::
       std::string_view(key_array),
       "\n\t"sv,
       std::string_view(gen.get_jump_names()),
-      "\n"sv,
+      "\n\n"sv,
       std::string_view(MSC::Key::get_chords(std::string_view(key_array))),
   });
 }
