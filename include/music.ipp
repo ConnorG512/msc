@@ -128,18 +128,15 @@ consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::
   using namespace std::string_view_literals;
   using namespace std::string_literals;
 
-  static constexpr auto bold{std::make_pair("\u001b[1m"sv, "\u001b[22m"sv)};
   const auto key_array {gen.generate_key()};
-  
   return append_strings_to_buffer<256>({
-      bold.first,
       std::string_view(MSC::Key::generate_title(gen)),
-      bold.second,
       "\n\t"sv,
       std::string_view(key_array),
       "\n\t"sv,
       std::string_view(gen.get_jump_names()),
       "\n\n"sv,
+      "Chords:\n"sv,
       std::string_view(MSC::Key::get_chords(std::string_view(key_array))),
   });
 }
