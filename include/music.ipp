@@ -121,7 +121,7 @@ consteval std::array<char, 16> MSC::Key::generate_title(const MSC::Key::Gen<inte
 }
 
 template <std::size_t interval_size>
-consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key::Gen<interval_size> &gen,
+consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::Gen<interval_size> &gen,
                                                                   std::string_view key_override)
 {
   std::string output{};
@@ -134,7 +134,7 @@ consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key
   output += ' ';
   output += '\0';
 
-  std::array<char, 64> final_buffer{};
+  std::array<char, 256> final_buffer{};
   if (output.size() > final_buffer.size())
     throw "Output is too big for the final buffer, increase buffer size!";
   else
