@@ -192,37 +192,37 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
       scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Major)))
   {
     const auto found_table{find_table(major_keys, tonic_hash_input)};
-    std::println(stdout, "{:s}\n\t{:s}\n{:s}", found_table.key_output_, found_table.jump_strings_, found_table.chords_);
+    std::println(stdout, "{:s}", found_table.final_buffer_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Dorian)))
   {
     const auto found_table{find_table(dorian_keys, tonic_hash_input)};
-    std::println(stdout, "{:s}\n\t{:s}\n{:s}", found_table.key_output_, found_table.jump_strings_, found_table.chords_);
+    std::println(stdout, "{:s}", found_table.final_buffer_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Phrygian)))
   {
     const auto found_table{find_table(phrygian_keys, tonic_hash_input)};
-    std::println(stdout, "{:s}\n\t{:s}\n{:s}", found_table.key_output_, found_table.jump_strings_, found_table.chords_);
+    std::println(stdout, "{:s}", found_table.final_buffer_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Lydian)))
   {
     const auto found_table{find_table(lydian_keys, tonic_hash_input)};
-    std::println(stdout, "{:s}\n\t{:s}\n{:s}", found_table.key_output_, found_table.jump_strings_, found_table.chords_);
+    std::println(stdout, "{:s}", found_table.final_buffer_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Mixolydian)))
   {
     const auto found_table{find_table(mixolydian_keys, tonic_hash_input)};
-    std::println(stdout, "{:s}\n\t{:s}\n{:s}", found_table.key_output_, found_table.jump_strings_, found_table.chords_);
+    std::println(stdout, "{:s}", found_table.final_buffer_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Aeolian)) ||
            scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Minor)))
   {
     const auto found_table{find_table(minor_keys, tonic_hash_input)};
-    std::println(stdout, "{:s}\n\t{:s}\n{:s}", found_table.key_output_, found_table.jump_strings_, found_table.chords_);
+    std::println(stdout, "{:s}", found_table.final_buffer_);
   }
   else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::Locrian)))
   {
     const auto found_table{find_table(locrian_keys, tonic_hash_input)};
-    std::println(stdout, "{:s}\n\t{:s}\n{:s}", found_table.key_output_, found_table.jump_strings_, found_table.chords_);
+    std::println(stdout, "{:s}", found_table.final_buffer_);
   }
 }

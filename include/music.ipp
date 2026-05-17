@@ -2,6 +2,7 @@
 
 #include "music.hpp"
 #include "sharp-flat.hpp"
+#include "string_append.hpp"
 
 #include <algorithm>
 #include <array>
@@ -121,30 +122,29 @@ consteval std::array<char, 16> MSC::Key::generate_title(const MSC::Key::Gen<inte
 }
 
 template <std::size_t interval_size>
-consteval std::array<char, 64> MSC::Key::generate_title_and_notes(const MSC::Key::Gen<interval_size> &gen,
-                                                                  std::string_view key_override)
+consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::Gen<interval_size> &gen,
+                                                                std::string_view key_override)
 {
-  std::string output{};
-  output.append(gen.get_tonic_note().data());
-  output += ' ';
-  output.append(gen.scale_name_.data());
-  output += ':';
-  output += ' ';
-  output.append((key_override.empty() ? gen.generate_key(key_override).data() : key_override.data()));
-  output += ' ';
-  output += '\0';
+  using namespace std::string_view_literals;
+  using namespace std::string_literals;
 
-  std::array<char, 64> final_buffer{};
-  if (output.size() > final_buffer.size())
-    throw "Output is too big for the final buffer, increase buffer size!";
-  else
-  {
-    std::ranges::copy(output, std::ranges::begin(final_buffer));
-    return final_buffer;
-  }
+  static constexpr auto bold{std::make_pair("\u001b[1m"sv, "\u001b[22m"sv)};
+  const auto key_array {gen.generate_key()};
+  
+  return append_strings_to_buffer<256>({
+      bold.first,
+      std::string_view(MSC::Key::generate_title(gen)),
+      bold.second,
+      "\n\t"sv,
+      std::string_view(key_array),
+      "\n\t"sv,
+      std::string_view(gen.get_jump_names()),
+      "\n\n"sv,
+      std::string_view(MSC::Key::get_chords(std::string_view(key_array))),
+  });
 }
 
-consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
+consteval std::array<char, 128> MSC::Key::get_chords(std::string_view key)
 {
   const std::size_t end{key.find('\0')};
 
@@ -165,6 +165,7 @@ consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
     const auto third{(index + 2) % notes.size()};
     const auto fith{(index + 4) % notes.size()};
 
+    output += "\t";
     output += c;
     output += "-";
     output += notes.at(third);
@@ -173,11 +174,10 @@ consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
     output += "\n";
   }
 
-  std::array<char, 64> final_buffer{};
+  std::array<char, 128> final_buffer{};
   if (output.size() >= final_buffer.size())
     throw "Output is too big for the final buffer, increase buffer size!";
 
-  static constexpr auto max_range{63};
   std::ranges::copy(output, std::ranges::begin(final_buffer));
-  return {final_buffer};
+  return final_buffer;
 }
