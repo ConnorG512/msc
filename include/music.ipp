@@ -105,7 +105,7 @@ consteval std::array<char, 32> MSC::Key::generate_title(const MSC::Key::Gen<inte
 {
   using namespace std::string_view_literals;
 
-  return append_strings_to_buffer<32>({std::string_view(gen.get_tonic_note()), " "sv, std::string_view(gen.scale_name_), ": \n"sv});
+  return append_strings_to_buffer<32>({std::string_view(gen.get_tonic_note()), " "sv, std::string_view(gen.scale_name_), ": "sv});
 }
 
 template <std::size_t interval_size>
