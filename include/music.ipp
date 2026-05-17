@@ -143,14 +143,14 @@ consteval std::array<char, 128> MSC::Key::get_chords(std::string_view key)
     notes.pop_back();
 
   std::string output{};
-  for (const auto [index, c] : notes | std::views::enumerate)
+  for (const auto [index, note] : notes | std::views::enumerate)
   {
     const auto root{index};
     const auto third{(index + 2) % notes.size()};
     const auto fith{(index + 4) % notes.size()};
 
     output += "\t";
-    output += c;
+    output += note;
     output += "-";
     output += notes.at(third);
     output += "-";
