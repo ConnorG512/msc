@@ -135,7 +135,9 @@ consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::
   output.append((key_override.empty() ? gen.generate_key(key_override).data() : key_override.data()) + "\n\t"sv);
   output.append(gen.get_jump_names() + "\n"sv);
   output.append(bold.first + "Chords"s +  bold.second + ":\n\t"sv);
-  output.append(MSC::Key::get_chords(gen));
+
+  const auto chords {MSC::Key::get_chords(gen.generate_key().data())};
+  output.append(std::string_view(chords.data(), chords.size()));
   
   std::array<char, 256> final_buffer{};
   std::ranges::copy(output | std::views::take(final_buffer.size() -1), std::ranges::begin(final_buffer));
