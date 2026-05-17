@@ -13,6 +13,12 @@
 
 int main(int argc, char **argv)
 {
+  if (argc == 1)
+  {
+    std::println(stdout, "No arguments provided, see --help/-h for more information.");
+    return EXIT_SUCCESS;
+  }
+
   static constexpr auto scale_arg{MSC::create_arg({"s", "scale"}, "Chosen Scale.")};
   static constexpr auto tonic_arg{MSC::create_arg({"t", "tonic"}, "Chosen Tonic.")};
 
@@ -39,7 +45,6 @@ int main(int argc, char **argv)
     std::println(stderr, "Exception caught! Error: {}", e.what());
     return EXIT_FAILURE;
   }
-
 
   return EXIT_SUCCESS;
 }
