@@ -39,7 +39,7 @@ template <std::size_t interval_size>
 consteval std::array<char, 256> generate_final_output(const Gen<interval_size> &gen,
                                                         std::string_view key_override = {});
 
-consteval std::array<char, 64> get_chords(std::string_view key);
+consteval std::array<char, 128> get_chords(std::string_view key);
 } // namespace MSC::Key
 
 #include "music.ipp"

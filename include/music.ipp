@@ -144,7 +144,7 @@ consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::
   });
 }
 
-consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
+consteval std::array<char, 128> MSC::Key::get_chords(std::string_view key)
 {
   const std::size_t end{key.find('\0')};
 
@@ -165,6 +165,7 @@ consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
     const auto third{(index + 2) % notes.size()};
     const auto fith{(index + 4) % notes.size()};
 
+    output += "\t";
     output += c;
     output += "-";
     output += notes.at(third);
@@ -173,11 +174,10 @@ consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
     output += "\n";
   }
 
-  std::array<char, 64> final_buffer{};
+  std::array<char, 128> final_buffer{};
   if (output.size() >= final_buffer.size())
     throw "Output is too big for the final buffer, increase buffer size!";
 
-  static constexpr auto max_range{63};
   std::ranges::copy(output, std::ranges::begin(final_buffer));
-  return {final_buffer};
+  return final_buffer;
 }
