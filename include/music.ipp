@@ -124,24 +124,22 @@ template <std::size_t interval_size>
 consteval std::array<char, 256> MSC::Key::generate_final_output(const MSC::Key::Gen<interval_size> &gen,
                                                                   std::string_view key_override)
 {
-  std::string output{};
-  output.append(gen.get_tonic_note().data());
-  output += ' ';
-  output.append(gen.scale_name_.data());
-  output += ':';
-  output += ' ';
-  output.append((key_override.empty() ? gen.generate_key(key_override).data() : key_override.data()));
-  output += ' ';
-  output += '\0';
+  using namespace std::string_view_literals;
+  using namespace std::string_literals;
+  
+  static constexpr auto bold {std::make_pair("\u001b[1m"sv, "\u001b[22m"sv)};
 
+  std::string output{};
+  output.append(bold.first + gen.get_tonic_note() + ' ' + gen.scale_name_ + bold.second + ":\n"sv);
+  output.append(bold.first + "Notes"s + bold.second + ": "sv);
+  output.append((key_override.empty() ? gen.generate_key(key_override).data() : key_override.data()) + "\n\t"sv);
+  output.append(gen.get_jump_names() + "\n"sv);
+  output.append(bold.first + "Chords"s +  bold.second + ":\n\t"sv);
+  output.append(MSC::Key::get_chords(gen));
+  
   std::array<char, 256> final_buffer{};
-  if (output.size() > final_buffer.size())
-    throw "Output is too big for the final buffer, increase buffer size!";
-  else
-  {
-    std::ranges::copy(output, std::ranges::begin(final_buffer));
-    return final_buffer;
-  }
+  std::ranges::copy(output | std::views::take(final_buffer.size() -1), std::ranges::begin(final_buffer));
+  return final_buffer;
 }
 
 consteval std::array<char, 64> MSC::Key::get_chords(std::string_view key)
