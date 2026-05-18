@@ -19,17 +19,17 @@ int main(int argc, char **argv)
     return EXIT_SUCCESS;
   }
 
-  static constexpr auto scale_arg{MSC::create_arg({"s", "scale"}, "Chosen Scale.")};
-  static constexpr auto tonic_arg{MSC::create_arg({"t", "tonic"}, "Chosen Tonic.")};
-
   CLI::App app{"Music scale printer."};
   argv = app.ensure_utf8(argv);
 
   std::string scale{};
   std::string tonic{};
 
-  app.add_option(scale_arg.args.data(), scale, scale_arg.description.data());
-  app.add_option(tonic_arg.args.data(), tonic, tonic_arg.description.data());
+  static constexpr auto cli_args = std::to_array<MSC::CmdArg<16, 32>>(
+      {MSC::CmdArg<>{{"s", "scale"}, "Chosen Scale."}, MSC::CmdArg<>{{"t", "tonic"}, "Chosen Tonic."}});
+
+  app.add_option(cli_args.at(0).get_arg<std::string>(), scale, cli_args.at(0).get_description<std::string>());
+  app.add_option(cli_args.at(1).get_arg<std::string>(), tonic, cli_args.at(1).get_description<std::string>());
 
   try
   {
