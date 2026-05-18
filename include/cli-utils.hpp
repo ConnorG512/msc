@@ -11,7 +11,7 @@ namespace MSC
 template <std::size_t arg_size = 16, std::size_t desc_size = 32> class CmdArg
 {
 public:
-  constexpr CmdArg<arg_size, desc_size>(const std::initializer_list<std::string_view> args,
+  constexpr CmdArg<arg_size, desc_size>(const std::pair<std::string_view, std::string_view> args,
                                         const std::string_view description);
 
   std::string_view get_arg() const noexcept;
