@@ -18,9 +18,11 @@ constexpr MSC::CmdArg<arg_size, desc_size>::CmdArg(const std::pair<std::string_v
 template <std::size_t arg_size, std::size_t desc_size>
 std::string_view MSC::CmdArg<arg_size, desc_size>::get_arg() const noexcept
 {
+  return args_.data();
 }
 
 template <std::size_t arg_size, std::size_t desc_size>
 std::string_view MSC::CmdArg<arg_size, desc_size>::get_description() const noexcept
 {
+  return description_.data();
 }
