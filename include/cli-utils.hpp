@@ -17,8 +17,8 @@ public:
   std::string_view get_description() const noexcept;
 
 private:
-  std::array<char, desc_size> description{};
-  std::array<char, arg_size> args{};
+  std::array<char, desc_size> description_{};
+  std::array<char, arg_size> args_{};
 };
 } // namespace MSC
 
