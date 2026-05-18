@@ -9,7 +9,7 @@
 namespace MSC
 {
 template <typename T>
-concept StrT = std::convertible_to<T, const char *>;
+concept StrT = std::constructible_from<T, const char *>;
 
 template <std::size_t arg_size = 16, std::size_t desc_size = 32> class CmdArg
 {
