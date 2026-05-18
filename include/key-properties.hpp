@@ -16,7 +16,9 @@ public:
   template <std::integral... Intervals>
   consteval Properties(std::string_view name, Intervals... intervals)
     :name_(name), intervals_{static_cast<std::int8_t>(intervals)...} {
-      if(std::ranges::fold_left(intervals_, 0, std::plus<>()) != 12)
+
+      static constexpr auto chromatic_scale_length{12};
+      if(std::ranges::fold_left(intervals_, 0, std::plus<>()) != chromatic_scale_length)
       {
         throw "Intervals do not add up to 12 tone scale!";
       }
