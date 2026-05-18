@@ -1,9 +1,9 @@
 #pragma once
 
+#include "ansi.hpp"
 #include "music.hpp"
 #include "sharp-flat.hpp"
 #include "string_append.hpp"
-#include "ansi.hpp"
 
 #include <algorithm>
 #include <array>
@@ -12,6 +12,7 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <vector>
 
 // Constructor
 
@@ -106,7 +107,8 @@ consteval std::array<char, 32> MSC::Key::generate_title(const MSC::Key::Gen<inte
 {
   using namespace std::string_view_literals;
 
-  return append_strings_to_buffer<32>({std::string_view(gen.get_tonic_note()), " "sv, std::string_view(gen.scale_name_), ":"sv});
+  return append_strings_to_buffer<32>(
+      {std::string_view(gen.get_tonic_note()), " "sv, std::string_view(gen.scale_name_), ":"sv});
 }
 
 template <std::size_t interval_size>
@@ -115,7 +117,7 @@ consteval std::array<char, 512> MSC::Key::generate_final_output(const MSC::Key::
 {
   using namespace std::string_view_literals;
 
-  const auto key_array {gen.generate_key()};
+  const auto key_array{gen.generate_key()};
   return append_strings_to_buffer<512>({
       MSC::Ansi::bold.start_,
       MSC::Ansi::underline.start_,
@@ -142,13 +144,9 @@ consteval std::array<char, 128> MSC::Key::get_chords(std::string_view key)
 
   std::string_view current_key{key.data(), key.find('\0')};
 
-  static constexpr auto remove_end{2};
   auto notes = current_key | std::views::split(' ') |
                std::views::transform([](auto &&note_str) { return std::string_view(note_str); }) |
-               std::ranges::to<std::vector<std::string>>();
-
-  if (!notes.empty())
-    notes.pop_back();
+               std::ranges::to<std::vector<std::string_view>>();
 
   std::string output{};
   for (const auto [index, note] : notes | std::views::enumerate)
