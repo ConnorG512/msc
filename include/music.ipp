@@ -81,7 +81,7 @@ template <std::size_t interval_size> consteval std::array<char, 64> MSC::Key::Ge
 
   auto setup = intervals_ |
                std::views::transform(
-                   [&](const auto interval) consteval -> std::string_view
+                   [&](const auto interval) -> std::string_view
                    {
                      if (interval == std::to_underlying(Tones::Semitone))
                        return "Semitone";
