@@ -30,8 +30,8 @@ int main(int argc, char **argv)
     MSC::CmdArg<>{{"t", "tonic"}, "Chosen Tonic."}
   });
 
-  app.add_option(std::string(cli_args.at(0).get_arg()), scale, std::string(cli_args.at(0).get_description()));
-  app.add_option(std::string(cli_args.at(1).get_arg()), tonic, std::string(cli_args.at(1).get_description()));
+  app.add_option(cli_args.at(0).get_arg<std::string>(), scale, cli_args.at(0).get_description<std::string>());
+  app.add_option(cli_args.at(1).get_arg<std::string>(), tonic, cli_args.at(1).get_description<std::string>());
 
   try
   {
