@@ -140,8 +140,6 @@ consteval std::array<char, 512> MSC::Key::generate_final_output(const MSC::Key::
 
 consteval std::array<char, 128> MSC::Key::get_chords(std::string_view key)
 {
-  const std::size_t end{key.find('\0')};
-
   std::string_view current_key{key.data(), key.find('\0')};
 
   auto notes = current_key | std::views::split(' ') |
