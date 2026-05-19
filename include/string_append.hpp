@@ -17,9 +17,7 @@ constexpr std::array<char, buffer_size> append_strings_to_buffer(std::initialize
 
   std::string output{};
   for (const auto &msg : messages)
-  {
     output.append(msg);
-  }
 
   if (output.size() >= buffer_size)
     throw "Output string is too large for the buffer size, incease buffer!";
