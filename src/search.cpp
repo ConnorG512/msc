@@ -259,4 +259,14 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
     const auto found_table{find_table(locrian_keys, tonic_hash_input)};
     std::println(stdout, "{:s}", found_table.final_buffer_);
   }
+  else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::MinorPentatonic)))
+  {
+    const auto found_table{find_table(pentatonic_minor_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}", found_table.final_buffer_);
+  }
+  else if (scale_hash_input == scale_hashes.at(std::to_underlying(Scales::MajorPentatonic)))
+  {
+    const auto found_table{find_table(pentatonic_major_keys, tonic_hash_input)};
+    std::println(stdout, "{:s}", found_table.final_buffer_);
+  }
 }
