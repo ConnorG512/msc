@@ -44,4 +44,7 @@ namespace MSC::Key {
   
   inline constexpr Properties major{"Major", 2,2,1,2,2,2,1};
   inline constexpr Properties minor{"Minor", 2,1,2,2,1,2,2};
+
+  inline constexpr Properties minor_pentatonic{"Minor Pentatonic", 3,2,2,3,2};
+  inline constexpr Properties major_pentatonic{"Major Pentatonic", 2,2,3,2,3};
 }
