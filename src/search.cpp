@@ -296,9 +296,13 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
         std::views::concat(major_keys, minor_keys, dorian_keys, phrygian_keys, lydian_keys, mixolydian_keys,
                            locrian_keys, pentatonic_major_keys, pentatonic_minor_keys);
 
-    const auto table_result = std::ranges::find_if(search_tables, [scale_input](const auto &table)
-                                                   { return table.arg_hash_ == scale_input &&; });
+    const auto table_result = std::ranges::find_if(search_tables, [scale_input, tonic_input](const auto &table)
+                                                   { return table.scale_hash_ == scale_input && table.tonic_hash_ == tonic_input; });
     if (table_result == search_tables.end())
       throw std::runtime_error("Could not find valid search table!");
+
+    return *table_result;
   };
+
+  std::println(stdout, "{:s}", (find_table(scale_hash_input, tonic_hash_input)).final_buffer_);
 }
