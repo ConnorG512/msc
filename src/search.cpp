@@ -268,28 +268,6 @@ static constexpr auto pentatonic_minor_keys = std::to_array<MSC::SearchTable>({
 
 void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic_hash_input)
 {
-  enum class Scales
-  {
-    Ionian = 0,
-    Dorian = 1,
-    Phrygian = 2,
-    Lydian = 3,
-    Mixolydian = 4,
-    Aeolian = 5,
-    Locrian = 6,
-
-    Major = 7,
-    Minor = 8,
-
-    MinorPentatonic = 9,
-    MajorPentatonic = 10,
-  };
-  static constexpr std::array scale_hashes{
-      MSC::generate_hash("ionian"),           MSC::generate_hash("dorian"),          MSC::generate_hash("phrygian"),
-      MSC::generate_hash("lydian"),           MSC::generate_hash("mixolydian"),      MSC::generate_hash("aeolian"),
-      MSC::generate_hash("locrian"),          MSC::generate_hash("major"),           MSC::generate_hash("minor"),
-      MSC::generate_hash("minor-pentatonic"), MSC::generate_hash("major-pentatonic")};
-
   auto find_table = [&](const std::uint64_t scale_input, const std::uint64_t tonic_input)
   {
     auto search_tables =
