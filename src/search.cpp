@@ -267,14 +267,15 @@ static constexpr auto pentatonic_minor_keys = std::to_array<MSC::SearchTable>({
 
 void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic_hash_input)
 {
-  auto find_table = [&](const std::uint64_t scale_input, const std::uint64_t tonic_input)
+  auto find_table = [](const std::uint64_t scale_input, const std::uint64_t tonic_input)
   {
     auto search_tables =
         std::views::concat(major_keys, minor_keys, dorian_keys, phrygian_keys, lydian_keys, mixolydian_keys,
                            locrian_keys, pentatonic_major_keys, pentatonic_minor_keys);
 
-    const auto table_result = std::ranges::find_if(search_tables, [scale_input, tonic_input](const auto &table)
-                                                   { return table.scale_hash_ == scale_input && table.tonic_hash_ == tonic_input; });
+    const auto table_result =
+        std::ranges::find_if(search_tables, [s_hash = scale_input, t_hash = tonic_input](const auto &table)
+                             { return table.scale_hash_ == s_hash && table.tonic_hash_ == t_hash; });
     if (table_result == search_tables.end())
       throw std::runtime_error("Could not find valid search table!");
 
