@@ -3,6 +3,7 @@
 #include "key-properties.hpp"
 #include "sharp-flat.hpp"
 #include "tonic-offsets.hpp"
+#include "chord-policies.hpp"
 
 #include <array>
 #include <cstdint>
@@ -35,10 +36,10 @@ Gen(Tonic, NoteType, const MSC::Key::Properties<interval_size> &) -> Gen<interva
 // Outer Interface:
 template <std::size_t interval_size> consteval std::array<char, 32> generate_title(const Gen<interval_size> &gen);
 
-template <std::size_t interval_size>
+template <std::size_t interval_size, auto policy = MSC::Key::standard_chord>
 consteval std::array<char, 512> generate_final_output(const Gen<interval_size> &gen,
                                                         std::string_view key_override = {});
-
+template <auto policy = MSC::Key::standard_chord> 
 consteval std::array<char, 128> get_chords(std::string_view key);
 } // namespace MSC::Key
 
