@@ -11,10 +11,11 @@
 
 namespace MSC::Key
 {
-inline constexpr auto generate_chord = [](const std::vector<std::string_view>& notes, const std::vector<std::int8_t>& jumps = {2,4}) -> std::string {
-  
+inline constexpr auto generate_chord = [](const std::vector<std::string_view> &notes,
+                                          const std::vector<std::int8_t> &jumps = {2, 4}) -> std::string
+{
   std::string output{};
-  for(const auto &[index, note] : notes | std::views::enumerate)
+  for (const auto &[index, note] : notes | std::views::enumerate)
   {
     const auto root{index};
     const auto third{(index + jumps.at(0)) % notes.size()};
