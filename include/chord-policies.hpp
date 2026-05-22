@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <initializer_list>
 #include <ranges>
+#include <span>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -13,14 +14,16 @@ namespace MSC::Key
 {
 inline constexpr auto generate_chord = [](const std::vector<std::string_view> &notes,
                                           const std::vector<std::int8_t> &jumps = {2, 4, 6}) -> std::string
-{
+{  
   std::string output{};
-  for (const auto &[index, note] : notes | std::views::enumerate)
+  
+  const std::span trimmed_notes{notes.begin(), notes.size() -1};
+  for (const auto &[index, note] : trimmed_notes | std::views::enumerate)
   {
     const auto root{index};
-    const auto third{(index + jumps.at(0)) % notes.size()};
-    const auto fith{(index + jumps.at(1)) % notes.size()};
-    const auto seventh{(index + jumps.at(2)) % notes.size()};
+    const auto third{(index + jumps.at(0)) % trimmed_notes.size()};
+    const auto fith{(index + jumps.at(1)) % trimmed_notes.size()};
+    const auto seventh{(index + jumps.at(2)) % trimmed_notes.size()};
 
     output += "\t";
     output += note;
