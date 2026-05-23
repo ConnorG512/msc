@@ -7,7 +7,6 @@ namespace MSC
 {
 void search(const std::uint64_t scale_hash, const std::uint64_t tonic_hash);
 
-template <typename ChordPolicy>
 struct SearchTable
 {
   std::array<char, 512> final_buffer_{};
