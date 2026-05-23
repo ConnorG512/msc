@@ -49,7 +49,7 @@ inline constexpr auto standard_chord = [](std::string_view key)
                std::ranges::to<std::vector<std::string_view>>();
 
   std::string output{generate_chord(notes)};
-  return append_strings_to_buffer<128>({{output.data(), output.size()}});
+  return append_strings_to_buffer<256>({{output.data(), output.size()}});
 };
 
 inline constexpr auto pentatonic_chord = [](std::string_view key)
@@ -61,7 +61,7 @@ inline constexpr auto pentatonic_chord = [](std::string_view key)
                std::ranges::to<std::vector<std::string_view>>();
 
   std::string output{generate_chord(notes)};
-  return append_strings_to_buffer<128>(
+  return append_strings_to_buffer<256>(
       {"Consider using the Major / Minor of the derived key for harmoy.\n", {output.data(), output.size()}});
 };
 } // namespace MSC::Key

@@ -40,7 +40,7 @@ template <std::size_t interval_size, auto policy = MSC::Key::standard_chord>
 consteval std::array<char, 512> generate_final_output(const Gen<interval_size> &gen,
                                                         std::string_view key_override = {});
 template <auto policy = MSC::Key::standard_chord> 
-consteval std::array<char, 128> get_chords(std::string_view key);
+consteval std::array<char, 256> get_chords(std::string_view key);
 } // namespace MSC::Key
 
 #include "music.ipp"
