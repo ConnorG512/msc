@@ -15,6 +15,13 @@ add_executable(${EXECUTABLE_NAME}
   ${SOURCE_FILES}
 )
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_compile_options(${EXECUTABLE_NAME} PRIVATE 
+    # Compile options.
+    -freflection
+  )
+endif()
+
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE
   # Libraries:
 )
