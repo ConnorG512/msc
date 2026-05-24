@@ -17,7 +17,7 @@
   in 
   {
     packages.x86_64-linux = {
-      debug = pkgs.stdenv.mkDerivation (finalAttrs: {
+      debug = pkgs.gcc16Stdenv.mkDerivation (finalAttrs: {
         pname = appProperties.name;
         version = appProperties.version;
         src = appProperties.path;
@@ -34,7 +34,7 @@
         ];
       });
 
-      release = pkgs.stdenv.mkDerivation (finalAttrs: {
+      release = pkgs.gcc16Stdenv.mkDerivation (finalAttrs: {
         pname = appProperties.name;
         version = appProperties.version;
         src = appProperties.path;
@@ -49,7 +49,7 @@
         ];
       });
 
-      relWithDebugInfo = pkgs.stdenv.mkDerivation (finalAttrs: {
+      relWithDebugInfo = pkgs.gcc16Stdenv.mkDerivation (finalAttrs: {
         pname = appProperties.name;
         version = appProperties.version;
         src = appProperties.path;
