@@ -73,10 +73,13 @@
         cmake
         ninja
       ];
-
+      
       shellHook = ''
         echo "Entering shell!"
       '';
+
+      # Env Vars: 
+      CMAKE_EXPORT_COMPILE_COMMANDS = 1;
     };
   };
 }
