@@ -14,10 +14,10 @@ namespace MSC::Key
 {
 inline constexpr auto generate_chord = [](const std::vector<std::string_view> &notes,
                                           const std::vector<std::int8_t> &jumps = {2, 4, 6}) -> std::string
-{  
+{
   std::string output{};
-  
-  const std::span trimmed_notes{notes.begin(), notes.size() -1};
+
+  const std::span trimmed_notes{notes.begin(), notes.size() - 1};
   for (const auto &[index, note] : trimmed_notes | std::views::enumerate)
   {
     const auto root{index};
@@ -49,7 +49,7 @@ inline constexpr auto standard_chord = [](std::string_view key)
                std::ranges::to<std::vector<std::string_view>>();
 
   std::string output{generate_chord(notes)};
-  return append_strings_to_buffer<256>({{output.data(), output.size()}});
+  return output;
 };
 
 inline constexpr auto pentatonic_chord = [](std::string_view key)
@@ -60,8 +60,6 @@ inline constexpr auto pentatonic_chord = [](std::string_view key)
                std::views::transform([](auto &&note_str) { return std::string_view(note_str); }) |
                std::ranges::to<std::vector<std::string_view>>();
 
-  std::string output{generate_chord(notes)};
-  return append_strings_to_buffer<256>(
-      {"Consider using the Major / Minor of the derived key for harmoy.\n", {output.data(), output.size()}});
+  return std::string{"Consider using the Major / Minor of the derived key for harmoy.\n\n" + generate_chord(notes)};
 };
 } // namespace MSC::Key

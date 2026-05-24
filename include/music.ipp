@@ -141,5 +141,6 @@ consteval std::array<char, 512> MSC::Key::generate_final_output(const MSC::Key::
 template <auto policy> 
 consteval std::array<char, 256> MSC::Key::get_chords(std::string_view key)
 {
-  return policy(key);
+  std::string output {policy(key)};
+  return append_strings_to_buffer<256>({{output.data(), output.size()}});
 }
