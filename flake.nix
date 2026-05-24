@@ -67,7 +67,7 @@
       });
     };
 
-    devShells.x86_64-linux.default = pkgs.mkShell {
+    devShells.x86_64-linux.default = pkgs.mkShell.override{ stdenv = pkgs.gcc16Stdenv; } {
       packages = with pkgs; [ 
         clang-tools
         cmake
