@@ -27,9 +27,12 @@ int main(int argc, char **argv)
 
   static constexpr auto cli_args = std::to_array<MSC::CmdArg<16, 32>>(
       {MSC::CmdArg<>{{"s", "scale"}, "Chosen Scale."}, MSC::CmdArg<>{{"t", "tonic"}, "Chosen Tonic."}});
-
-  app.add_option(cli_args.at(0).get_arg<std::string>(), scale, cli_args.at(0).get_description<std::string>());
-  app.add_option(cli_args.at(1).get_arg<std::string>(), tonic, cli_args.at(1).get_description<std::string>());
+  enum class Args {
+    Scale, 
+    Tonic,
+  };
+  app.add_option(cli_args.at(std::to_underlying(Args::Scale)).get_arg<std::string>(), scale, cli_args.at(std::to_underlying(Args::Scale)).get_description<std::string>());
+  app.add_option(cli_args.at(std::to_underlying(Args::Tonic)).get_arg<std::string>(), tonic, cli_args.at(std::to_underlying(Args::Tonic)).get_description<std::string>());
 
   try
   {
