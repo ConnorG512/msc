@@ -511,73 +511,73 @@ static constexpr auto pentatonic_major_keys = std::to_array<MSC::SearchTable>({
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::C, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("c"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::D, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("d"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::E, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("e"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::F, MSC::NoteType::Flat, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("f"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::F_SHARP, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("f#"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::G, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("g"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::A, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("a"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::B, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("b"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::B_FLAT, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("bb"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::E_FLAT, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("eb"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::A_FLAT, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("d"),
     },
     {
         .final_buffer_{MSC::Key::generate_final_output<5, MSC::Key::pentatonic_chord>(
             KeyGen{MSC::Tonic::D_FLAT, MSC::NoteType::Sharp, MSC::Key::major_pentatonic})},
-        .scale_hash_ = MSC::generate_hash("pentatonic-major"),
+        .scale_hash_ = MSC::generate_hash("major-pentatonic"),
         .tonic_hash_ = MSC::generate_hash("ab"),
     },
 });
