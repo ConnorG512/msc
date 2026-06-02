@@ -8,6 +8,7 @@
 #include "key-properties.hpp"
 #include "sharp-flat.hpp"
 #include "string_append.hpp"
+#include "enum-to-string.hpp"
 
 #include <algorithm>
 #include <array>
@@ -681,7 +682,7 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
 void MSC::list()
 {
   static constexpr auto scale_strings = [](){
-    enum class scale_names {
+    enum class ScaleNames {
       Major,
       Minor,
       
@@ -694,34 +695,34 @@ void MSC::list()
       Minor_Pentatonic,
       Major_Pentatonic,
     };
-    const auto scale_size{std::meta::enumerators_of(^^scale_names).size()};
-    
-    std::array<std::array<char, 32>, scale_size> scale_buffers {};
-    
-    std::size_t index{0};
-    template for (constexpr auto e : std::define_static_array(std::meta::enumerators_of(^^scale_names)))
-    {
-      std::string enum_res {std::meta::identifier_of(e)};
-      std::ranges::copy(enum_res, std::ranges::begin(scale_buffers.at(index)));
-      index++;
-    }
 
-    // Make strings lowercase and replace underscores with spaces.
-    for(auto &str: scale_buffers)
-    {
-      for(auto &c : str)
+    // Utils: 
+    auto to_lower_case = [](char &c){
+      if(c >= 'A' && c <= 'Z' )
       {
-        // Convert to lowercase:
-        if(c >= 'A' && c <= 'Z' )
-        {
-          c = c + 32;
-        }
-
-        if (c == '_') c = '-';
+        c = c + 32;
       }
-    }
+    };
 
-    return scale_buffers;
+    auto replace_char = [](const char prev, const char replacement, char &src){
+        if (src == prev) src = replacement;
+    };
+    
+    constexpr auto scale_views {MSC::enum_to_view<ScaleNames>()};
+    std::array<std::array<char, 32>, scale_views.size()> buffers {};
+    std::ranges::transform(scale_views, std::ranges::begin(buffers), [&](std::string_view scale_view){
+          std::array<char, 32> buffer {};
+          std::ranges::copy(scale_view, std::ranges::begin(buffer));
+          buffer.at(scale_view.size()) = '\0';
+
+          for(char &c : buffer)
+          {
+            to_lower_case(c);
+            replace_char('_', '-', c);
+          }
+          return buffer;
+        });
+    return buffers;
   }();
 
   for(const auto &str : scale_strings)
