@@ -4,10 +4,10 @@ namespace MSC {
     Major,
     Minor,
     
+    Dorian,
     Phrygian,
     Lydian,
     Mixolydian,
-    Aeolian,
     Locrian,
 
     Minor_Pentatonic,
