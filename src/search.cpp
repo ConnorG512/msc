@@ -715,7 +715,7 @@ void MSC::list()
           std::ranges::copy(scale_view, std::ranges::begin(buffer));
           buffer.at(scale_view.size()) = '\0';
 
-          for(char &c : buffer)
+          for(char &c : buffer | std::views::take(scale_view.size()))
           {
             to_lower_case(c);
             replace_char('_', '-', c);
