@@ -7,6 +7,8 @@ namespace MSC
 {
 void search(const std::uint64_t scale_hash, const std::uint64_t tonic_hash);
 
+void list();
+
 struct SearchTable
 {
   std::array<char, 512> final_buffer_{};

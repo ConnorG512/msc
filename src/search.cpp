@@ -5,17 +5,18 @@
 #include "search.hpp"
 #include "sharp-flat.hpp"
 #include "tonic-offsets.hpp"
-
 #include "key-properties.hpp"
 #include "sharp-flat.hpp"
+#include "string_append.hpp"
+
 #include <algorithm>
 #include <array>
-
 #include <cstddef>
 #include <print>
 #include <ranges>
 #include <stdexcept>
 #include <string_view>
+#include <meta>
 
 namespace
 {
@@ -675,4 +676,54 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
   };
 
   std::println(stdout, "{:s}", (find_table(scale_hash_input, tonic_hash_input)).final_buffer_);
+}
+
+void MSC::list()
+{
+  static constexpr auto scale_strings = [](){
+    enum class scale_names {
+      Major,
+      Minor,
+      
+      Phrygian,
+      Lydian,
+      Mixolydian,
+      Aeolian,
+      Locrian,
+
+      Minor_Pentatonic,
+      Major_Pentatonic,
+    };
+    const auto scale_size{std::meta::enumerators_of(^^scale_names).size()};
+    
+    std::array<std::array<char, 32>, scale_size> scale_buffers {};
+    
+    std::size_t index{0};
+    template for (constexpr auto e : std::define_static_array(std::meta::enumerators_of(^^scale_names)))
+    {
+      std::string enum_res {std::meta::identifier_of(e)};
+      std::ranges::copy(enum_res, std::ranges::begin(scale_buffers.at(index)));
+      index++;
+    }
+
+    // Make strings lowercase and replace underscores with spaces.
+    for(auto &str: scale_buffers)
+    {
+      for(auto &c : str)
+      {
+        // Convert to lowercase:
+        if(c >= 'A' && c <= 'Z' )
+        {
+          c = c + 32;
+        }
+
+        if (c == '_') c = '-';
+      }
+    }
+
+    return scale_buffers;
+  }();
+
+  for(const auto &str : scale_strings)
+    std::println(stdout, "{:s}", str);
 }
