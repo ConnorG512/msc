@@ -1,8 +1,8 @@
 #pragma once 
 namespace MSC {
   enum class ScaleNames {
-    Major,
-    Minor,
+    Major, // Ionian
+    Minor, // Aeolian
     
     Dorian,
     Phrygian,
