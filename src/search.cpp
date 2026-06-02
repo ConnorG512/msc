@@ -9,6 +9,7 @@
 #include "sharp-flat.hpp"
 #include "string_append.hpp"
 #include "enum-to-string.hpp"
+#include "scales.hpp"
 
 #include <algorithm>
 #include <array>
@@ -682,20 +683,6 @@ void MSC::search(const std::uint64_t scale_hash_input, const std::uint64_t tonic
 void MSC::list()
 {
   static constexpr auto scale_strings = [](){
-    enum class ScaleNames {
-      Major,
-      Minor,
-      
-      Phrygian,
-      Lydian,
-      Mixolydian,
-      Aeolian,
-      Locrian,
-
-      Minor_Pentatonic,
-      Major_Pentatonic,
-    };
-
     // Utils: 
     auto to_lower_case = [](char &c){
       if(c >= 'A' && c <= 'Z' )
